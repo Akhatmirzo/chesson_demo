@@ -1,26 +1,201 @@
 @import "tailwindcss";
 
+@theme {
+  --color-cream: #faf7f0;
+  --color-cream-deep: #f1ebdd;
+  --color-forest: #1f4d3a;
+  --color-forest-deep: #163a2b;
+  --color-coral: #ff6b4a;
+  --color-ink: #1a1a1a;
+  --color-ink-soft: #4a4a45;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-nunito), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Body shrifti: avval Inter'ning metrikasi moslashtirilgan zaxirasi, yuklangach Inter */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-body: 'Inter Fallback';
+}
+.fonts-ready {
+  --font-body: var(--font-inter);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-coral);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-coral);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* JS ishlaganda animatsiya qilinadigan elementlar boshida yashirin.
+   JS yuklanmasa ham 5 s dan keyin ko'rinadi (failsafe).
+   Hero matni faqat desktopda yashiriladi — mobilda LCP kechikmasligi uchun darhol ko'rinadi. */
+.js [data-reveal]:not([data-reveal='hero']),
+.js [data-split='lines'],
+.js [data-stagger-item],
+.js [data-card],
+.js [data-fan-item] {
+  opacity: 0;
+  animation: reveal-failsafe 0s linear 5s forwards;
+}
+/* "Parda" rasm ustida: JS bo'lmasa ko'rinmaydi, JS bo'lsa GSAP ochadi */
+[data-curtain] {
+  display: none;
+}
+.js [data-curtain] {
+  display: block;
+  animation: curtain-failsafe 0s linear 5s forwards;
+}
+@keyframes curtain-failsafe {
+  to {
+    opacity: 0;
+  }
+}
+@media (min-width: 1024px) and (pointer: fine) {
+  .js [data-reveal='hero'],
+  .js [data-split] {
+    opacity: 0;
+    animation: reveal-failsafe 0s linear 5s forwards;
+  }
+}
+/* Animatsiya moduli ishga tushgach failsafe o'chadi, ko'rsatishni GSAP boshqaradi */
+.anim-ready [data-reveal],
+.anim-ready [data-split],
+.anim-ready [data-stagger-item],
+.anim-ready [data-card],
+.anim-ready [data-fan-item],
+.anim-ready [data-curtain] {
+  animation: none !important;
+}
+@keyframes reveal-failsafe {
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Ekrandan tashqaridagi bo'limlar ekranga yaqinlashguncha layout/paint qilinmaydi (birinchi yuklanish tezlashadi).
+   contain-intrinsic-size — bo'limning taxminiy balandligi (anchor havolalar to'g'ri joyga borishi uchun). */
+.cv {
+  content-visibility: auto;
+  contain-intrinsic-size: auto var(--cis, 1000px);
+}
+/* Desktopda "jarayon" paneli hero ustiga chiqadi — u yerda content-visibility kerak emas */
+@media (min-width: 1024px) {
+  #jarayon.cv {
+    content-visibility: visible;
+  }
+}
+  #kurslar { --cis: 2264px; }
+  #narxlar { --cis: 1678px; }
+  #murabbiylar { --cis: 1315px; }
+  #natijalar { --cis: 590px; }
+  #mashq { --cis: 1111px; }
+  #fikrlar { --cis: 1346px; }
+  #savollar { --cis: 1358px; }
+  #yozilish { --cis: 1214px; }
+  #site-footer { --cis: 809px; }
+  #jarayon { --cis: 1777px; }
+@media (min-width: 768px) {
+  #kurslar { --cis: 1510px; }
+  #narxlar { --cis: 965px; }
+  #murabbiylar { --cis: 707px; }
+  #natijalar { --cis: 598px; }
+  #mashq { --cis: 1297px; }
+  #fikrlar { --cis: 782px; }
+  #savollar { --cis: 1128px; }
+  #yozilish { --cis: 1016px; }
+  #site-footer { --cis: 421px; }
+  #jarayon { --cis: 1484px; }
+}
+@media (min-width: 1024px) {
+  #kurslar { --cis: 1644px; }
+  #narxlar { --cis: 971px; }
+  #murabbiylar { --cis: 759px; }
+  #natijalar { --cis: 529px; }
+  #mashq { --cis: 852px; }
+  #fikrlar { --cis: 747px; }
+  #savollar { --cis: 1040px; }
+  #yozilish { --cis: 816px; }
+  #site-footer { --cis: 401px; }
+}
+
+/* Mat mashqi (faqat transform/opacity) */
+@keyframes puzzle-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(4px); }
+}
+@keyframes puzzle-move {
+  from { transform: translate(0, 0); }
+  to { transform: translate(var(--dx), var(--dy)); }
+}
+@keyframes puzzle-mate {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.7; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.puzzle-shake { animation: puzzle-shake 0.45s ease-in-out; }
+.puzzle-move { animation: puzzle-move 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+.puzzle-mate { animation: puzzle-mate 1.4s ease-in-out 0.7s infinite; opacity: 0; }
+.puzzle-msg { animation: fade-up 0.35s ease-out; }
+
+/* FAQ: ochilganda javob yumshoq paydo bo'ladi */
+details[open] > .faq-body { animation: fade-up 0.35s ease-out; }
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .puzzle-shake, .puzzle-msg, details[open] > .faq-body { animation: none; }
+  .puzzle-move { animation-duration: 0.01s; }
+  .puzzle-mate { animation: none; opacity: 0.45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-split],
+  .js [data-stagger-item],
+  .js [data-card],
+  .js [data-fan-item] {
+    opacity: 1 !important;
+    animation: none;
+  }
+  .js [data-curtain] {
+    display: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }

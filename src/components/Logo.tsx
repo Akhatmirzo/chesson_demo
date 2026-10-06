@@ -1,25 +1,16 @@
-import { brand } from '@/content/site';
+import { Crown } from 'lucide-react';
+import s from './Logo.module.css';
 
-export function LogoMark({ className = 'size-9' }: { className?: string }) {
+export function Logo({ size = 34, light = false }: { size?: number; light?: boolean }) {
   return (
-    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" className={className}>
-      <rect width="48" height="48" rx="12" fill="#58CC02" />
-      <path
-        fill="#FFFFFF"
-        d="M23 6h2v3h3v2h-3v4h-2v-4h-3V9h3zM17.5 16h13l-2.2 6.5h-8.6zM19.2 24h9.6l1.6 10.5H17.6zM14.5 36h19v5h-19z"
-      />
-      <circle cx="37" cy="12" r="3.5" fill="#FFC800" />
-    </svg>
-  );
-}
-
-export function Logo({ light = false }: { light?: boolean }) {
-  return (
-    <a href="#top" className="flex items-center gap-2.5" aria-label={`${brand.name} — bosh sahifa`}>
-      <LogoMark />
-      <span className={`font-display text-xl font-extrabold tracking-tight ${light ? 'text-paper' : 'text-green-deep'}`}>
-        {brand.name}
+    <span className={s.logo} style={{ ['--s' as string]: `${size}px` }}>
+      <span className={s.mark}>
+        <span className={s.dot} aria-hidden="true" />
+        <Crown size={size * 0.5} color="#fff" aria-hidden="true" />
       </span>
-    </a>
+      <span className={s.word} style={light ? { color: '#fff' } : undefined}>
+        Chesson
+      </span>
+    </span>
   );
 }

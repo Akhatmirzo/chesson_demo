@@ -1,0 +1,64 @@
+.section { padding-top: 112px; position: relative; background: linear-gradient(180deg, #fff, var(--surface-soft) 30%, var(--surface-soft) 85%, #fff); }
+
+/* ===== Kompyuter: sticky skroll hikoyasi ===== */
+.track { height: calc(var(--n) * 75vh + 100vh); margin-top: calc(-1 * max(0px, (100vh - 680px) / 2)); }
+.sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; padding-top: 56px; }
+.layout { display: grid; grid-template-columns: 380px 1fr; gap: 56px; align-items: center; }
+.layout > * { min-width: 0; }
+
+.tabs { display: flex; flex-direction: column; gap: 6px; }
+.tab {
+  position: relative; display: grid; grid-template-columns: 34px 1fr; gap: 12px; text-align: left;
+  padding: 14px 18px 14px 20px; border: 0; border-radius: 16px; background: transparent; color: inherit;
+  transition: background .35s, box-shadow .35s;
+}
+.tab:hover { background: rgba(255, 255, 255, .7); }
+.tabOn { background: #fff; box-shadow: var(--shadow-md); }
+.tabNum { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: #94a3b8; padding-top: 2px; transition: color .3s; }
+.tabOn .tabNum { color: var(--primary); }
+.tabBody { display: flex; flex-direction: column; }
+.tabLabel { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #94a3b8; }
+.tabOn .tabLabel { color: var(--accent-text); }
+.tabTitle { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: #475569; margin-top: 2px; transition: color .3s; }
+.tabOn .tabTitle { color: var(--ink); }
+.tabText {
+  font-size: 14.5px; color: var(--text-secondary); line-height: 1.5;
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height .45s var(--ease-out), opacity .35s, margin .45s var(--ease-out);
+}
+.tabOn .tabText { max-height: 120px; opacity: 1; margin-top: 6px; }
+.bar { position: absolute; left: 0; top: 16px; bottom: 16px; width: 3px; border-radius: 3px; background: transparent; overflow: hidden; }
+.tabOn .bar { background: #e2e8f0; }
+.bar i { display: block; width: 100%; height: 100%; background: var(--primary); transform-origin: top; transition: transform .15s linear; }
+
+.stage { position: relative; }
+.frameWrap { position: relative; }
+.layer { position: absolute; inset: 0; opacity: 0; transform: scale(1.025); transition: opacity .55s var(--ease-out), transform .7s var(--ease-out); }
+.layer:first-child { position: relative; }
+.layerOn { opacity: 1; transform: none; z-index: 1; }
+.mobileText, .pager { display: none; }
+.hint { margin-top: 18px; text-align: center; font-size: 13.5px; color: #94a3b8; }
+
+/* ===== Planshet / telefon: oddiy karusel ===== */
+@media (max-width: 1023px) {
+  .section { padding: 80px 0 72px; }
+  .track { height: auto; margin-top: 36px; }
+  .sticky { position: static; height: auto; padding: 0; display: block; }
+  .layout { grid-template-columns: 1fr; gap: 20px; }
+  .tabs { flex-direction: row; overflow-x: auto; gap: 8px; padding: 2px 2px 10px; scrollbar-width: none; scroll-snap-type: x proximity; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { display: block; padding: 10px 16px; border-radius: 999px; background: #fff; border: 1px solid var(--border); flex-shrink: 0; scroll-snap-align: start; }
+  .tabOn { background: var(--primary); border-color: var(--primary); box-shadow: var(--shadow-primary); }
+  .tabNum, .tabTitle, .tabText, .bar { display: none; }
+  .tabLabel { font-size: 14px; letter-spacing: 0; text-transform: none; color: #334155; font-weight: 600; }
+  .tabOn .tabLabel { color: #fff; }
+  .mobileText { display: block; margin-top: 20px; text-align: center; }
+  .mobileText h3 { font-size: 21px; }
+  .mobileText p { color: var(--text-secondary); margin-top: 6px; font-size: 15px; }
+  .pager { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 16px; }
+  .pager button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: #fff; display: grid; place-items: center; color: var(--ink); }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 7px; height: 7px; border-radius: 4px; background: #cbd5e1; transition: width .3s var(--ease-out), background .3s; }
+  .dots .dotOn { width: 22px; background: var(--primary); }
+  .hint { margin-top: 10px; }
+}

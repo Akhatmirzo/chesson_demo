@@ -1,0 +1,19 @@
+.dialog {
+  border: 0; padding: 0; background: transparent; max-width: 480px; width: calc(100% - 28px); max-height: calc(100dvh - 28px);
+  overflow: visible;
+}
+.dialog::backdrop { background: rgba(15, 23, 42, .5); backdrop-filter: blur(4px); animation: fade .25s; }
+.dialog[open] .box { animation: up .4s var(--ease-spring); }
+.box { position: relative; background: #fff; border-radius: 24px; padding: 30px 28px 24px; box-shadow: var(--shadow-xl); max-height: calc(100dvh - 28px); overflow-y: auto; }
+.box h2 { font-size: 24px; padding-right: 36px; }
+.sub { color: var(--text-secondary); margin: 4px 0 20px; font-size: 14.5px; }
+.x { position: absolute; right: 16px; top: 16px; width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--surface-muted); color: #475569; display: grid; place-items: center; }
+.x:hover { background: var(--surface-strong); }
+@keyframes fade { from { opacity: 0; } }
+@keyframes up { from { opacity: 0; transform: translateY(24px) scale(.97); } }
+@media (max-width: 640px) {
+  .dialog { margin: auto auto 0; width: 100%; max-width: none; }
+  .box { border-radius: 24px 24px 0 0; padding: 26px 20px 22px; }
+  .dialog[open] .box { animation: sheet .4s var(--ease-out); }
+  @keyframes sheet { from { transform: translateY(100%); } }
+}

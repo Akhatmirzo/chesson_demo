@@ -1,37 +1,61 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import Hero from '@/components/hero/Hero';
-import SmoothScroll from '@/components/SmoothScroll';
-import ScrollAnimations from '@/components/ScrollAnimations';
-import Steps from '@/components/sections/Steps';
-import Courses from '@/components/sections/Courses';
-import Pricing from '@/components/sections/Pricing';
-import Coaches from '@/components/sections/Coaches';
-import Stats from '@/components/sections/Stats';
-import Puzzle from '@/components/sections/Puzzle';
-import Testimonials from '@/components/sections/Testimonials';
-import Faq from '@/components/sections/Faq';
-import Signup from '@/components/sections/Signup';
+import { DEFAULT_LANDING } from '@/content/defaults';
+import type { LandingData } from '@/content/types';
+import { Providers } from '@/components/providers';
+import { Intro } from '@/components/Intro';
+import { Header } from '@/components/Header';
+import { Hero } from '@/components/Hero';
+import { WhyChess } from '@/components/WhyChess';
+import { Showcase } from '@/components/Showcase';
+import { LiveLesson } from '@/components/LiveLesson';
+import { Parents } from '@/components/Parents';
+import { Motivation } from '@/components/Motivation';
+import { Coaches } from '@/components/Coaches';
+import { Plans } from '@/components/Plans';
+import { TrialSteps } from '@/components/TrialSteps';
+import { Signup } from '@/components/Signup';
+import { Faq } from '@/components/Faq';
+import { Footer } from '@/components/Footer';
+import { LeadModal } from '@/components/LeadModal';
+import { DesktopMotion } from '@/components/DesktopMotion';
 
-export default function Home() {
+/**
+ * Build vaqtida serverdan joriy kontent olinadi (HTML'da darhol ko'rinadi, qidiruv tizimlari uchun ham),
+ * API yo'q bo'lsa — zaxira. Brauzerda baribir eng yangisi qayta olinadi.
+ */
+async function loadInitial(): Promise<LandingData> {
+  const base = process.env.LANDING_BUILD_API;
+  if (!base) return DEFAULT_LANDING;
+  try {
+    const res = await fetch(`${base.replace(/\/$/, '')}/public/landing`, { signal: AbortSignal.timeout(4000), cache: 'no-store' });
+    if (!res.ok) return DEFAULT_LANDING;
+    return { ...DEFAULT_LANDING, ...((await res.json()) as LandingData) };
+  } catch {
+    return DEFAULT_LANDING;
+  }
+}
+
+export default async function Page() {
+  const initial = await loadInitial();
   return (
-    <>
-      <SmoothScroll />
-      <ScrollAnimations />
+    <Providers initial={initial}>
+      <Intro />
       <Header />
-      <main>
+      <main id="top">
         <Hero />
-        <Steps />
-        <Courses />
-        <Pricing />
+        <WhyChess />
+        <Showcase />
+        <LiveLesson />
+        <Parents />
+        <Motivation />
         <Coaches />
-        <Stats />
-        <Puzzle />
-        <Testimonials />
-        <Faq />
+        <Plans />
+        <TrialSteps />
         <Signup />
+        <Faq />
       </main>
       <Footer />
-    </>
+      <LeadModal />
+      <DesktopMotion />
+    </Providers>
   );
 }

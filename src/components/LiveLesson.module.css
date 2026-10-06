@@ -1,0 +1,20 @@
+.section { position: relative; overflow: hidden; padding: 120px 0; background: radial-gradient(1200px 600px at 80% 0%, #1e3a8a 0%, transparent 60%), #0b1220; color: #cbd5e1; }
+.glow { position: absolute; width: 700px; height: 700px; left: -200px; bottom: -300px; border-radius: 50%; background: radial-gradient(circle, rgba(245, 158, 11, .16), transparent 65%); pointer-events: none; }
+.inner { position: relative; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: center; }
+.eyebrow { color: #fbbf24; }
+.h2 { color: #fff; }
+.hl { color: #fbbf24; }
+.lead { color: #94a3b8; }
+.points { list-style: none; padding: 0; margin: 34px 0 0; display: flex; flex-direction: column; gap: 18px; }
+.points li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; }
+.points li > span:last-child { display: flex; flex-direction: column; gap: 2px; }
+.points b { color: #fff; font-family: var(--font-display); font-size: 17px; }
+.points li > span:last-child > span { font-size: 15px; color: #94a3b8; }
+.pIcon { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: rgba(59, 130, 246, .14); color: #93c5fd; border: 1px solid rgba(147, 197, 253, .16); }
+.demo { position: relative; }
+.caption { margin-top: 14px; text-align: center; font-size: 13.5px; color: #64748b; }
+
+@media (max-width: 1024px) {
+  .section { padding: 80px 0; }
+  .inner { grid-template-columns: 1fr; gap: 40px; }
+}

@@ -1,46 +1,42 @@
 'use client';
 
-/**
- * GSAP (+ScrollTrigger, SplitText) va Lenis boshlang'ich JS'ga kirmaydi:
- *  - desktopda (hero kirish animatsiyasi uchun) hydration'dan keyin darhol yuklanadi;
- *  - mobil/touch'da birinchi ekranga kerak emas — foydalanuvchi birinchi marta
- *    scroll qilganda / tekkanda yuklanadi (LCP va TBT ga ta'sir qilmaydi).
- */
-type GsapModule = typeof import('./gsap');
-let gsapPromise: Promise<GsapModule> | null = null;
+import { useEffect, useState } from 'react';
+import type { gsap as GsapType } from 'gsap';
+import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger';
 
-const INTERACTION_EVENTS = ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown'] as const;
+/** Murakkab animatsiyalar faqat kompyuterda: keng ekran + sichqoncha + harakat cheklanmagan. */
+export const RICH_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)';
 
-export const prefersReducedMotion = () =>
-  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-export const isDesktop = () =>
-  typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
-
-export const isTouch = () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
-
-/** Foydalanuvchining birinchi harakatini kutadi (yoki sahifa allaqachon pastga aylantirilgan bo'lsa — darhol). */
-export function onFirstInteraction(
-  events: readonly string[] = INTERACTION_EVENTS,
-): { promise: Promise<void>; cancel: () => void } {
-  let cancel = () => {};
-  const promise = new Promise<void>((resolve) => {
-    if (window.scrollY > 0 || location.hash) return resolve();
-    const done = () => {
-      cancel();
-      resolve();
-    };
-    events.forEach((e) => window.addEventListener(e, done, { passive: true, once: true }));
-    cancel = () => events.forEach((e) => window.removeEventListener(e, done));
-  });
-  return { promise, cancel };
+export function isRichMotion(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia(RICH_QUERY).matches;
 }
 
-export const loadGsap = () =>
-  (gsapPromise ??= (isDesktop() ? Promise.resolve() : onFirstInteraction().promise)
-    .then(() => import('./gsap'))
-    .then((mod) => {
-      // GSAP tayyor — CSS failsafe'ni o'chiramiz, ko'rsatishni endi GSAP boshqaradi
-      document.documentElement.classList.add('anim-ready');
-      return mod;
-    }));
+export function useRichMotion(): boolean {
+  const [rich, setRich] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(RICH_QUERY);
+    const on = () => setRich(mq.matches);
+    on();
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
+  return rich;
+}
+
+let gsapPromise: Promise<{ gsap: typeof GsapType; ScrollTrigger: typeof ScrollTriggerType }> | null = null;
+
+/** GSAP faqat kerak bo'lganda (kompyuterda) yuklanadi — telefonga bu kod umuman kelmaydi. */
+export function loadGsap() {
+  if (!gsapPromise) {
+    gsapPromise = Promise.all([import('gsap'), import('gsap/ScrollTrigger')]).then(([g, st]) => {
+      g.gsap.registerPlugin(st.ScrollTrigger);
+      return { gsap: g.gsap, ScrollTrigger: st.ScrollTrigger };
+    });
+  }
+  return gsapPromise;
+}
+
+/** Intro tugaguncha kutish (sessiyada birinchi kirishda ~1.4s) */
+export function introDelay(): number {
+  return typeof document !== 'undefined' && document.documentElement.classList.contains('intro') ? 1.35 : 0;
+}

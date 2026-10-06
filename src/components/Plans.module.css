@@ -1,0 +1,25 @@
+.section { background: var(--surface-soft); }
+.grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 360px)); justify-content: center; gap: 22px; margin-top: 52px; align-items: stretch; }
+.card {
+  position: relative; display: flex; flex-direction: column; padding: 30px 28px; border-radius: var(--radius-2xl);
+  background: #fff; border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out), opacity .7s var(--ease-out) var(--d, 0ms);
+}
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.hot { border: 2px solid var(--primary); box-shadow: 0 24px 60px rgba(37, 99, 235, .18); }
+.badge { position: absolute; top: -13px; left: 28px; display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 999px; background: var(--accent); color: #111; font-size: 12.5px; font-weight: 800; }
+.card h3 { font-size: 22px; }
+.sub { color: var(--text-secondary); font-size: 14.5px; margin-top: 4px; }
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin-top: 18px; }
+.price b { font-family: var(--font-display); font-size: 36px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+.price span { color: var(--text-secondary); font-size: 14px; }
+.old { width: 100%; color: #94a3b8; font-size: 15px; }
+.lessons { margin-top: 8px; font-weight: 600; color: var(--accent-text); font-size: 14.5px; }
+.card ul { list-style: none; padding: 0; margin: 20px 0 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.card li { display: flex; gap: 9px; font-size: 15px; color: #334155; }
+.card li svg { color: var(--success); flex-shrink: 0; margin-top: 3px; }
+.cta { width: 100%; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: minmax(0, 440px); }
+}

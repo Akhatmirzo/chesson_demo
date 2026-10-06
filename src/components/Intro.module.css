@@ -1,0 +1,40 @@
+/* Faqat html.intro bo'lganda ko'rinadi — aks holda hech qanday miltillash yo'q */
+.intro { display: none; }
+:global(html.intro) .intro {
+  display: grid; place-items: center;
+  position: fixed; inset: 0; z-index: 100; background: #fff; clip-path: inset(0 0 0 0);
+  animation: lift .75s var(--ease-out) 1.15s forwards;
+}
+
+.board {
+  position: absolute; display: grid; grid-template-columns: repeat(6, 1fr);
+  width: min(62vmin, 420px); aspect-ratio: 1; border-radius: 22px; overflow: hidden;
+  transform: rotate(-8deg);
+  animation: boardOut .5s var(--ease-out) .85s forwards;
+}
+.board span {
+  transform: scale(0); border-radius: 6px; margin: 2px;
+  animation: pop .42s var(--ease-spring) forwards;
+  animation-delay: calc(var(--k) * 45ms);
+}
+.light { background: var(--primary-tint-strong); }
+.dark { background: var(--primary); }
+.board span:nth-child(9), .board span:nth-child(22) { background: var(--accent); }
+
+.logo {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 22px 30px; border-radius: 22px; background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow-lg);
+  opacity: 0; transform: translateY(14px) scale(.92);
+  animation: logoIn .55s var(--ease-spring) .42s forwards;
+}
+.tag { font-size: 14px; color: var(--text-secondary); font-weight: 600; letter-spacing: .02em; }
+
+@keyframes pop { to { transform: scale(1); } }
+@keyframes boardOut { to { opacity: 0; transform: rotate(-2deg) scale(1.35); } }
+@keyframes logoIn { to { opacity: 1; transform: none; } }
+@keyframes lift { to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+
+@media (max-width: 640px) {
+  .board span { animation-delay: calc(var(--k) * 32ms); }
+}

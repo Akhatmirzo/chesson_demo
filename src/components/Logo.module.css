@@ -1,0 +1,12 @@
+.logo { display: inline-flex; align-items: center; gap: calc(var(--s) * 0.32); color: var(--ink); }
+.mark {
+  position: relative; width: var(--s); height: var(--s); border-radius: calc(var(--s) * 0.27);
+  background: linear-gradient(140deg, #3b82f6, var(--primary) 55%, #1d4ed8);
+  display: grid; place-items: center; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.dot {
+  position: absolute; top: calc(var(--s) * 0.16); right: calc(var(--s) * 0.16);
+  width: calc(var(--s) * 0.26); height: calc(var(--s) * 0.26); border-radius: 2px; background: var(--accent);
+}
+.word { font-family: var(--font-display); font-weight: 800; font-size: calc(var(--s) * 0.58); letter-spacing: -0.03em; }

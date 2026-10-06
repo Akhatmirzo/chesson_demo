@@ -1,0 +1,31 @@
+.viewport {
+  margin-top: 52px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory;
+  padding: 10px 0 24px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.viewport::-webkit-scrollbar { display: none; }
+.rail { display: flex; gap: 20px; width: max-content; padding: 0 max(var(--gutter), calc((100vw - var(--content-max)) / 2 + var(--gutter))); }
+.card {
+  width: 268px; flex-shrink: 0; border-radius: var(--radius-xl); background: #fff; border: 1px solid var(--border);
+  overflow: hidden; scroll-snap-align: center; box-shadow: var(--shadow-sm);
+  transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out);
+}
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.photo { aspect-ratio: 4 / 4.2; overflow: hidden; background: var(--surface-muted); }
+.photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform .6s var(--ease-out); }
+.card:hover .photo img { transform: scale(1.05); }
+.body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; }
+.body h3 { font-size: 17px; line-height: 1.25; }
+.title { align-self: flex-start; display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: var(--primary-tint); color: var(--primary); font-size: 12.5px; font-weight: 700; }
+.body p { font-size: 14px; color: var(--text-secondary); }
+.lang { display: flex; align-items: center; gap: 6px; padding-top: 10px; border-top: 1px solid #f1f5f9; font-size: 12.5px; color: #64748b; }
+.lang svg { color: var(--accent); flex-shrink: 0; }
+
+/* Kompyuterda — sekin aylanuvchi lenta (sichqoncha ustida to'xtaydi) */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .viewport { overflow: hidden; scroll-snap-type: none; }
+  .loop { padding: 0; animation: marquee calc(var(--count) * 6s) linear infinite; }
+  .loop:hover { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(calc(-50% - 10px)); } }
+}

@@ -1,238 +1,141 @@
-@import "tailwindcss";
-
-@theme {
-  /* Duolingo palitrasi asosida (nomlar — Duolingo brand ranglari) */
-  --color-paper: #ffffff; /* Snow */
-  --color-polar: #f7f7f7; /* Polar — muqobil bo'lim foni */
-  --color-swan: #e5e5e5; /* Swan — chegaralar */
-  --color-ink: #3c3c3c; /* asosiy matn */
-  --color-ink-soft: #6b6b6b; /* ikkinchi darajali matn (Wolf'ga yaqin, AA kontrast) */
-  --color-night: #131f24; /* to'q bloklar */
-  --color-night-soft: #1f2d33;
-
-  --color-green: #58cc02; /* Feather Green — asosiy CTA */
-  --color-green-deep: #58a700; /* tugma soyasi, ikonkalar */
-  --color-green-ink: #357c00; /* oq fonda kichik yashil matn (AA) */
-  --color-green-pale: #d7ffb8;
-
-  --color-macaw: #1cb0f6; /* Macaw Blue */
-  --color-macaw-deep: #1899d6;
-  --color-humpback: #2b70c9; /* to'q ko'k bloklar (oq matn AA) */
-  --color-blue-ink: #1453a3;
-  --color-blue-pale: #ddf4ff;
-
-  --color-bee: #ffc800; /* Bee Yellow */
-  --color-bee-deep: #e5b400;
-  --color-bee-pale: #fff4cc;
-  --color-bee-ink: #7a4e00;
-  --color-cardinal: #ff4b4b; /* Cardinal Red */
-  --color-cardinal-ink: #d92b2b;
-  --color-beetle: #ce82ff;
-
-  /* Yashil tugma ustidagi matn. Duolingo'dagidek oq; WCAG AA kerak bo'lsa #131f24 qiling. */
-  --color-on-green: #ffffff;
-
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-nunito), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-}
-
-/* Duolingo uslubidagi "3D" tugma: pastki qalin soya, bosilganda pastga tushadi (faqat transform) */
-@utility btn-3d {
-  box-shadow: 0 4px 0 var(--btn-shadow, var(--color-green-deep));
-  transition: transform 0.12s ease, filter 0.15s ease;
-  &:hover {
-    filter: brightness(1.05);
-  }
-  &:active {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 var(--btn-shadow, var(--color-green-deep));
-  }
-}
-
-/* Body shrifti: avval Inter'ning metrikasi moslashtirilgan zaxirasi, yuklangach Inter */
+/* Chesson landing — «Chess On» tokenlari (eski chesson.uz landing bilan bir xil palitra). */
 :root {
-  --font-body: 'Inter Fallback';
-}
-.fonts-ready {
-  --font-body: var(--font-inter);
+  --canvas: #ffffff;
+  --surface-soft: #f8fafc;
+  --surface-muted: #f1f5f9;
+  --surface-strong: #e9edf3;
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-active: #1e40af;
+  --primary-tint: #eff5ff;
+  --primary-tint-strong: #dbe7fe;
+
+  --accent: #f59e0b;
+  --accent-tint: #fef6e7;
+  /* Och amber matn uchun kontrasti past — matnda shu to'q varianti */
+  --accent-text: #b45309;
+
+  --kid-green: #58cc02;
+  --kid-green-tint: #e8f9d9;
+
+  --ink: #0f172a;
+  --text-primary: #111827;
+  --text-secondary: #5b6474;
+  --text-on-primary: #ffffff;
+
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+
+  --success: #10b981;
+  --error: #dc2626;
+
+  --font-display: var(--font-manrope), 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --content-max: 1200px;
+  --gutter: 24px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-2xl: 28px;
+  --radius-pill: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 40px 100px rgba(15, 23, 42, 0.18);
+  --shadow-primary: 0 12px 28px rgba(37, 99, 235, 0.32);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-html {
-  background: var(--color-paper);
-  color: var(--color-ink);
-  -webkit-text-size-adjust: 100%;
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
-  background: var(--color-paper);
-  font-family: var(--font-sans);
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
+h1, h2, h3, h4, p { margin: 0; }
+h1, h2, h3, h4 { font-family: var(--font-display); color: var(--ink); letter-spacing: -0.02em; }
+a { color: var(--primary); text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+::selection { background: rgba(37, 99, 235, 0.16); }
 
-::selection {
-  background: var(--color-bee);
-  color: var(--color-night);
-}
-
-:focus-visible {
-  outline: 3px solid var(--color-macaw);
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--primary);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
-/* Lenis */
-html.lenis,
-html.lenis body {
-  height: auto;
+.container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
 }
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
+@media (max-width: 640px) { :root { --gutter: 18px; } }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 }
 
-/* JS ishlaganda animatsiya qilinadigan elementlar boshida yashirin.
-   JS yuklanmasa ham 5 s dan keyin ko'rinadi (failsafe).
-   Hero matni faqat desktopda yashiriladi — mobilda LCP kechikmasligi uchun darhol ko'rinadi. */
-.js [data-reveal]:not([data-reveal='hero']),
-.js [data-split='lines'],
-.js [data-stagger-item],
-.js [data-card],
-.js [data-fan-item] {
-  opacity: 0;
-  animation: reveal-failsafe 0s linear 5s forwards;
+/* Bo'lim sarlavhasi (eyebrow + h2 + lead) */
+.section { padding: 96px 0; position: relative; }
+@media (max-width: 768px) { .section { padding: 72px 0; } }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--primary);
 }
-/* "Parda" rasm ustida: JS bo'lmasa ko'rinmaydi, JS bo'lsa GSAP ochadi */
-[data-curtain] {
-  display: none;
-}
-.js [data-curtain] {
-  display: block;
-  animation: curtain-failsafe 0s linear 5s forwards;
-}
-@keyframes curtain-failsafe {
-  to {
-    opacity: 0;
-  }
-}
-@media (min-width: 1024px) and (pointer: fine) {
-  .js [data-reveal='hero'],
-  .js [data-split] {
-    opacity: 0;
-    animation: reveal-failsafe 0s linear 5s forwards;
-  }
-}
-/* Animatsiya moduli ishga tushgach failsafe o'chadi, ko'rsatishni GSAP boshqaradi */
-.anim-ready [data-reveal],
-.anim-ready [data-split],
-.anim-ready [data-stagger-item],
-.anim-ready [data-card],
-.anim-ready [data-fan-item],
-.anim-ready [data-curtain] {
-  animation: none !important;
-}
-@keyframes reveal-failsafe {
-  to {
-    opacity: 1;
-  }
+.eyebrow::before { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; opacity: .5; }
+.h2 { font-size: clamp(30px, 4.2vw, 48px); line-height: 1.08; font-weight: 800; margin-top: 14px; }
+.lead { font-size: clamp(16px, 1.6vw, 19px); color: var(--text-secondary); margin-top: 16px; max-width: 640px; }
+.head-center { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.head-center .lead { margin-left: auto; margin-right: auto; }
+.grad-text {
+  background: linear-gradient(100deg, var(--primary) 10%, #7c3aed 60%, var(--primary) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
+/* Tugmalar */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  height: 54px; padding: 0 26px; border-radius: 14px; border: 1px solid transparent;
+  font-weight: 700; font-size: 16px; white-space: nowrap;
+  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), background .2s, color .2s, border-color .2s;
+}
+.btn:active { transform: translateY(1px) scale(.99); }
+.btn-primary { background: var(--primary); color: #fff; box-shadow: var(--shadow-primary); }
+.btn-primary:hover { background: var(--primary-hover); color: #fff; transform: translateY(-2px); box-shadow: 0 16px 34px rgba(37, 99, 235, 0.38); }
+.btn-ghost { background: #fff; color: var(--ink); border-color: var(--border); box-shadow: var(--shadow-sm); }
+.btn-ghost:hover { border-color: var(--border-strong); color: var(--ink); transform: translateY(-2px); }
+.btn svg { transition: transform .2s var(--ease-out); }
+.btn:hover svg.arrow { transform: translateX(3px); }
 
-/* Ekrandan tashqaridagi bo'limlar ekranga yaqinlashguncha layout/paint qilinmaydi (birinchi yuklanish tezlashadi).
-   contain-intrinsic-size — bo'limning taxminiy balandligi (anchor havolalar to'g'ri joyga borishi uchun). */
-.cv {
-  content-visibility: auto;
-  contain-intrinsic-size: auto var(--cis, 1000px);
-}
-/* Desktopda "jarayon" paneli hero ustiga chiqadi — u yerda content-visibility kerak emas */
-@media (min-width: 1024px) {
-  #jarayon.cv {
-    content-visibility: visible;
-  }
-}
-  #kurslar { --cis: 2264px; }
-  #narxlar { --cis: 1678px; }
-  #murabbiylar { --cis: 1315px; }
-  #natijalar { --cis: 590px; }
-  #mashq { --cis: 1111px; }
-  #fikrlar { --cis: 1346px; }
-  #savollar { --cis: 1358px; }
-  #yozilish { --cis: 1214px; }
-  #site-footer { --cis: 809px; }
-  #jarayon { --cis: 1777px; }
-@media (min-width: 768px) {
-  #kurslar { --cis: 1510px; }
-  #narxlar { --cis: 965px; }
-  #murabbiylar { --cis: 707px; }
-  #natijalar { --cis: 598px; }
-  #mashq { --cis: 1297px; }
-  #fikrlar { --cis: 782px; }
-  #savollar { --cis: 1128px; }
-  #yozilish { --cis: 1016px; }
-  #site-footer { --cis: 421px; }
-  #jarayon { --cis: 1484px; }
-}
-@media (min-width: 1024px) {
-  #kurslar { --cis: 1644px; }
-  #narxlar { --cis: 971px; }
-  #murabbiylar { --cis: 759px; }
-  #natijalar { --cis: 529px; }
-  #mashq { --cis: 852px; }
-  #fikrlar { --cis: 747px; }
-  #savollar { --cis: 1040px; }
-  #yozilish { --cis: 816px; }
-  #site-footer { --cis: 401px; }
-}
-
-/* Mat mashqi (faqat transform/opacity) */
-@keyframes puzzle-shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-10px); }
-  40% { transform: translateX(9px); }
-  60% { transform: translateX(-6px); }
-  80% { transform: translateX(4px); }
-}
-@keyframes puzzle-move {
-  from { transform: translate(0, 0); }
-  to { transform: translate(var(--dx), var(--dy)); }
-}
-@keyframes puzzle-mate {
-  0%, 100% { opacity: 0.25; }
-  50% { opacity: 0.7; }
-}
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.puzzle-shake { animation: puzzle-shake 0.45s ease-in-out; }
-.puzzle-move { animation: puzzle-move 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
-.puzzle-mate { animation: puzzle-mate 1.4s ease-in-out 0.7s infinite; opacity: 0; }
-.puzzle-msg { animation: fade-up 0.35s ease-out; }
-
-/* FAQ: ochilganda javob yumshoq paydo bo'ladi */
-details[open] > .faq-body { animation: fade-up 0.35s ease-out; }
-details > summary { list-style: none; }
-details > summary::-webkit-details-marker { display: none; }
+/* Oddiy paydo bo'lish (IntersectionObserver + CSS) — hamma qurilmada. Murakkab sahnalar kompyuterda GSAP bilan. */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); transition-delay: var(--d, 0ms); }
+.reveal.in { opacity: 1; transform: none; }
+html.no-js .reveal { opacity: 1; transform: none; transition: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .puzzle-shake, .puzzle-msg, details[open] > .faq-body { animation: none; }
-  .puzzle-move { animation-duration: 0.01s; }
-  .puzzle-mate { animation: none; opacity: 0.45; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .js [data-reveal],
-  .js [data-split],
-  .js [data-stagger-item],
-  .js [data-card],
-  .js [data-fan-item] {
-    opacity: 1 !important;
-    animation: none;
-  }
-  .js [data-curtain] {
-    display: none;
-  }
-  html {
-    scroll-behavior: auto;
-  }
-}
+/* Intro pardasi ochilguncha sahifa aylanmaydi; qahramon bo'lim animatsiyasi parda ketgach boshlanadi */
+html.intro:not(.intro-done) body { overflow: hidden; }
+:root { --intro: 0.05s; }
+html.intro { --intro: 1.3s; }

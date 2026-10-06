@@ -1,80 +1,78 @@
-import { Mail, Phone, Send } from 'lucide-react';
-import { brand, footer, nav, showSampleBadges } from '@/content/site';
+'use client';
+
+import { Mail, MapPin, Phone, Send } from 'lucide-react';
+import { telegramHref, telHref } from '@/lib/api';
 import { Logo } from './Logo';
+import { PLATFORM_URL } from './Header';
+import { useLanding } from './providers';
+import s from './Footer.module.css';
 
-export default function Footer() {
+function instaHref(v: string) {
+  return /^https?:\/\//.test(v) ? v : `https://instagram.com/${v.replace(/^@/, '')}`;
+}
+
+export function Footer() {
+  const { contacts } = useLanding();
   return (
-    <footer id="site-footer" className="cv bg-paper text-ink">
-      <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <Logo />
-            <p className="mt-4 max-w-sm text-ink-soft">{footer.text}</p>
-            <p className="mt-2 text-sm text-ink-soft">{brand.workHours}</p>
-          </div>
-          <nav aria-label="Pastki menyu" className="md:col-span-3">
-            <p className="text-sm font-bold">Boʻlimlar</p>
-            <ul className="mt-4 space-y-2.5 text-ink-soft">
-              {nav.map((n) => (
-                <li key={n.href}>
-                  <a href={n.href} className="hover:text-green-ink">
-                    {n.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <div className="md:col-span-4">
-            <p className="text-sm font-bold">
-              Aloqa
-              {showSampleBadges && <span className="ml-2 text-xs font-semibold text-ink-soft">(namuna)</span>}
-            </p>
-            <ul className="mt-4 space-y-2.5 text-ink-soft">
-              <li>
-                <a href={brand.phoneHref} className="flex items-center gap-2 hover:text-green-ink">
-                  <Phone className="size-4 text-green-ink" aria-hidden="true" />
-                  {brand.phone}
-                </a>
-              </li>
-              <li>
-                <a href={brand.telegram} className="flex items-center gap-2 hover:text-green-ink">
-                  <Send className="size-4 text-green-ink" aria-hidden="true" />
-                  {brand.telegramLabel}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${brand.email}`} className="flex items-center gap-2 hover:text-green-ink">
-                  <Mail className="size-4 text-green-ink" aria-hidden="true" />
-                  {brand.email}
-                </a>
-              </li>
-            </ul>
+    <footer className={s.footer}>
+      <div className={`container ${s.grid}`}>
+        <div className={s.brand}>
+          <Logo size={34} />
+          <p>Bolalar uchun onlayn shaxmat maktabi: jonli darslar, qiziqarli platforma va ota-onalar uchun shaffof nazorat.</p>
+          <div className={s.social}>
+            {contacts.telegram && (
+              <a href={telegramHref(contacts.telegram)} target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                <Send size={18} />
+              </a>
+            )}
+            {contacts.instagram && (
+              <a href={instaHref(contacts.instagram)} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+                </svg>
+              </a>
+            )}
           </div>
         </div>
-
-        <div className="mt-14 flex flex-col gap-3 border-t-2 border-swan pt-6 text-sm text-ink-soft md:flex-row md:items-center md:justify-between">
-          <p>
-            © {new Date().getFullYear()} {brand.name}
-          </p>
-          <p>
-            Foto:{' '}
-            <a href="https://www.pexels.com" className="underline-offset-2 hover:underline">
-              Pexels
-            </a>{' '}
-            · 3D model:{' '}
-            <a
-              href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/ABeautifulGame"
-              className="underline-offset-2 hover:underline"
-            >
-              «A Beautiful Game»
-            </a>{' '}
-            — MaterialX Project / ASWF, Ed Mackey,{' '}
-            <a href="https://creativecommons.org/licenses/by/4.0/" className="underline-offset-2 hover:underline">
-              CC BY 4.0
-            </a>{' '}
-            · HDRI: Poly Haven (CC0)
-          </p>
+        <nav className={s.col} aria-label="Sayt bo'limlari">
+          <h3>Sayt</h3>
+          <a href="#platforma">Platforma</a>
+          <a href="#dars">Jonli dars</a>
+          <a href="#ota-onalar">Ota-onalar uchun</a>
+          <a href="#murabbiylar">Murabbiylar</a>
+          <a href="#savollar">Savollar</a>
+        </nav>
+        <div className={s.col}>
+          <h3>Bog&apos;lanish</h3>
+          {contacts.phones.map((p) => (
+            <a key={p} href={telHref(p)}>
+              <Phone size={15} aria-hidden="true" /> {p}
+            </a>
+          ))}
+          {contacts.email && (
+            <a href={`mailto:${contacts.email}`}>
+              <Mail size={15} aria-hidden="true" /> {contacts.email}
+            </a>
+          )}
+          {contacts.address && (
+            <span>
+              <MapPin size={15} aria-hidden="true" /> {contacts.address}
+            </span>
+          )}
         </div>
+        <div className={s.col}>
+          <h3>O&apos;quvchilar va ustozlar</h3>
+          <a href={PLATFORM_URL} className={s.login}>
+            Platformaga kirish →
+          </a>
+          <span className={s.note}>Login va parolni maktab administratori beradi.</span>
+        </div>
+      </div>
+      <div className={`container ${s.bottom}`}>
+        <span>© {new Date().getFullYear()} Chesson. Barcha huquqlar himoyalangan.</span>
+        <span>Donalar: Lichess (cburnett, GPL)</span>
       </div>
     </footer>
   );

@@ -42,7 +42,7 @@ function validate(f: Fields): Errors {
 }
 
 const inputCls =
-  'mt-2 block w-full rounded-2xl border bg-white px-4 py-3.5 text-base text-ink outline-none transition-colors placeholder:text-ink-soft/50 focus:border-forest focus-visible:outline-none aria-[invalid=true]:border-coral';
+  'mt-2 block w-full rounded-2xl border-2 bg-polar px-4 py-3.5 text-base text-ink outline-none transition-colors placeholder:text-ink-soft/60 focus:border-macaw focus:bg-paper focus-visible:outline-none aria-[invalid=true]:border-cardinal';
 
 export default function Signup() {
   const [f, setF] = useState<Fields>(EMPTY);
@@ -108,7 +108,7 @@ export default function Signup() {
 
   const err = (k: keyof Fields) =>
     errors[k] ? (
-      <p id={`${k}-error`} className="mt-1.5 text-sm font-semibold text-[#b8381c]">
+      <p id={`${k}-error`} className="mt-1.5 text-sm font-semibold text-cardinal-ink">
         {errors[k]}
       </p>
     ) : null;
@@ -118,19 +118,19 @@ export default function Signup() {
   });
 
   return (
-    <section id="yozilish" className="cv bg-cream px-3 pb-3 sm:px-4 sm:pb-4" aria-labelledby="yozilish-title">
+    <section id="yozilish" className="cv bg-paper px-3 pb-3 sm:px-4 sm:pb-4" aria-labelledby="yozilish-title">
       <div
         data-zoom
-        className="mx-auto grid max-w-[1400px] overflow-hidden rounded-[36px] bg-forest text-cream lg:grid-cols-2 lg:rounded-[48px]"
+        className="mx-auto grid max-w-[1400px] overflow-hidden rounded-[36px] bg-humpback text-paper lg:grid-cols-2 lg:rounded-[48px]"
       >
         <div className="flex flex-col p-7 pt-14 sm:p-12 lg:p-16">
-          <p data-reveal="up" className="text-sm font-bold tracking-[0.14em] text-coral uppercase">
+          <p data-reveal="up" className="text-sm font-extrabold tracking-[0.14em] text-paper uppercase">
             {signup.eyebrow}
           </p>
           <h2 id="yozilish-title" data-split="lines" className="mt-4 font-display text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
             {display(signup.title)}
           </h2>
-          <p data-reveal="up" className="mt-5 max-w-md text-lg leading-relaxed text-cream/75">
+          <p data-reveal="up" className="mt-5 max-w-md text-lg leading-relaxed text-paper/90">
             {signup.lead}
           </p>
           <Photo
@@ -139,25 +139,25 @@ export default function Signup() {
             className="mt-10 hidden aspect-[16/10] lg:block"
             sizes="40vw"
             curtain
-            curtainClass="bg-forest"
+            curtainClass="bg-humpback"
           />
-          <div data-reveal="up" className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-cream/85 lg:mt-8">
-            <a href={brand.phoneHref} className="flex items-center gap-2 font-semibold hover:text-coral">
-              <Phone className="size-4 text-coral" aria-hidden="true" />
+          <div data-reveal="up" className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-paper lg:mt-8">
+            <a href={brand.phoneHref} className="flex items-center gap-2 font-semibold hover:text-bee">
+              <Phone className="size-4 text-bee" aria-hidden="true" />
               {brand.phone}
             </a>
-            <a href={brand.telegram} className="flex items-center gap-2 font-semibold hover:text-coral">
-              <Send className="size-4 text-coral" aria-hidden="true" />
+            <a href={brand.telegram} className="flex items-center gap-2 font-semibold hover:text-bee">
+              <Send className="size-4 text-bee" aria-hidden="true" />
               {brand.telegramLabel}
             </a>
           </div>
         </div>
 
         <div className="p-3 sm:p-4 lg:p-5">
-          <div data-reveal="up" className="h-full rounded-[28px] bg-cream p-6 text-ink sm:p-10 lg:rounded-[36px] lg:p-12">
+          <div data-reveal="up" className="h-full rounded-[28px] bg-paper p-6 text-ink sm:p-10 lg:rounded-[36px] lg:p-12">
             {status === 'done' ? (
               <div className="flex h-full min-h-[420px] flex-col items-center justify-center text-center puzzle-msg" role="status">
-                <CircleCheck className="size-16 text-forest" strokeWidth={1.6} aria-hidden="true" />
+                <CircleCheck className="size-16 text-green-deep" strokeWidth={1.8} aria-hidden="true" />
                 <h3 className="mt-6 font-display text-3xl font-black">{display(signup.success.title)}</h3>
                 <p className="mt-3 max-w-sm text-ink-soft">{signup.success.text}</p>
                 {viaTelegram && <p className="mt-4 max-w-sm text-sm text-ink-soft">{signup.fallback}</p>}
@@ -168,7 +168,7 @@ export default function Signup() {
                     setStatus('idle');
                     setViaTelegram(false);
                   }}
-                  className="mt-8 text-sm font-bold text-forest underline-offset-4 hover:underline"
+                  className="mt-8 text-sm font-extrabold tracking-[0.04em] text-humpback uppercase underline-offset-4 hover:underline"
                 >
                   Yana bir ariza qoldirish
                 </button>
@@ -187,7 +187,7 @@ export default function Signup() {
                     placeholder="Masalan, Nodira"
                     value={f.name}
                     onChange={(e) => set('name', e.target.value)}
-                    className={`${inputCls} border-ink/12`}
+                    className={`${inputCls} border-swan`}
                     {...aria('name')}
                   />
                   {err('name')}
@@ -205,7 +205,7 @@ export default function Signup() {
                     placeholder="+998 90 123 45 67"
                     value={f.phone}
                     onChange={(e) => set('phone', formatPhone(e.target.value))}
-                    className={`${inputCls} border-ink/12 tabular-nums`}
+                    className={`${inputCls} border-swan tabular-nums`}
                     {...aria('phone')}
                   />
                   {err('phone')}
@@ -220,7 +220,7 @@ export default function Signup() {
                       name="age"
                       value={f.age}
                       onChange={(e) => set('age', e.target.value)}
-                      className={`${inputCls} border-ink/12 appearance-none`}
+                      className={`${inputCls} border-swan appearance-none`}
                       {...aria('age')}
                     >
                       <option value="">Tanlang</option>
@@ -241,7 +241,7 @@ export default function Signup() {
                       name="level"
                       value={f.level}
                       onChange={(e) => set('level', e.target.value)}
-                      className={`${inputCls} border-ink/12 appearance-none`}
+                      className={`${inputCls} border-swan appearance-none`}
                       {...aria('level')}
                     >
                       <option value="">Tanlang</option>
@@ -260,8 +260,8 @@ export default function Signup() {
                     {signup.times.map((t) => (
                       <label
                         key={t}
-                        className={`cursor-pointer rounded-2xl border px-3 py-3 text-sm font-semibold transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-coral ${
-                          f.time === t ? 'border-forest bg-forest text-cream' : 'border-ink/12 bg-white hover:border-forest'
+                        className={`cursor-pointer rounded-2xl border-2 border-b-4 px-3 py-3 text-sm font-bold transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-macaw ${
+                          f.time === t ? 'border-[#84d8ff] bg-blue-pale text-blue-ink' : 'border-swan bg-paper hover:bg-polar'
                         }`}
                       >
                         <input
@@ -280,7 +280,7 @@ export default function Signup() {
                 </fieldset>
 
                 {status === 'error' && (
-                  <p className="rounded-2xl bg-coral/15 px-4 py-3 text-sm font-semibold" role="alert">
+                  <p className="rounded-2xl bg-[#ffdfe0] px-4 py-3 text-sm font-semibold text-cardinal-ink" role="alert">
                     Yuborishda xatolik boʻldi. Iltimos, qayta urinib koʻring yoki Telegramʼda yozing:{' '}
                     <a href={brand.telegram} className="underline">
                       {brand.telegramLabel}
@@ -291,7 +291,7 @@ export default function Signup() {
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className="group mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-coral px-7 py-4 text-base font-bold text-ink transition-transform hover:-translate-y-0.5 disabled:opacity-70"
+                  className="group mt-1 btn-3d inline-flex items-center justify-center gap-2 rounded-2xl bg-green font-extrabold tracking-[0.06em] text-on-green uppercase px-7 py-4 text-[15px] disabled:opacity-70"
                 >
                   {status === 'sending' ? (
                     <LoaderCircle className="size-5 animate-spin" aria-hidden="true" />

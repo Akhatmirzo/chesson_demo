@@ -17,10 +17,10 @@ export default function Photo({
   className = '',
   sizes = '(min-width: 1024px) 40vw, 100vw',
   curtain = false,
-  curtainClass = 'bg-cream',
+  curtainClass = 'bg-paper',
 }: Props) {
   return (
-    <div className={`relative overflow-hidden rounded-[28px] bg-cream-deep ${className}`} data-photo>
+    <div className={`relative overflow-hidden rounded-[28px] bg-polar ${className}`} data-photo>
       <img
         data-parallax
         src={`/photos/${name}-800.webp`}

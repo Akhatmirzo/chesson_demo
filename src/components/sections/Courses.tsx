@@ -4,11 +4,11 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import Photo from '@/components/ui/Photo';
 import { display } from '@/lib/typo';
 
-const accents = ['bg-[#e8f0e9] text-forest', 'bg-[#fde6df] text-[#b8381c]', 'bg-ink text-cream'];
+const accents = ['bg-green-pale text-green-ink', 'bg-blue-pale text-blue-ink', 'bg-bee-pale text-bee-ink'];
 
 export default function Courses() {
   return (
-    <section id="kurslar" className="cv relative bg-cream py-20 lg:py-32" aria-labelledby="kurslar-title">
+    <section id="kurslar" className="cv relative bg-paper py-20 lg:py-32" aria-labelledby="kurslar-title">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-end gap-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
@@ -29,7 +29,7 @@ export default function Courses() {
             <li
               key={c.level}
               data-card
-              className="flex flex-col rounded-[28px] border border-ink/8 bg-white/70 p-7 shadow-[0_20px_50px_-35px_rgba(26,26,26,0.35)] lg:p-8"
+              className="flex flex-col rounded-[24px] border-2 border-b-4 border-swan bg-paper p-7 lg:p-8"
             >
               <span className={`self-start rounded-full px-3.5 py-1.5 text-xs font-bold tracking-wide uppercase ${accents[i]}`}>
                 {i + 1}-daraja
@@ -38,12 +38,12 @@ export default function Courses() {
               <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[15px] text-ink-soft">
                 <div className="flex items-center gap-1.5">
                   <dt className="sr-only">Yosh</dt>
-                  <Users className="size-4 text-forest" aria-hidden="true" />
+                  <Users className="size-4 text-macaw-deep" aria-hidden="true" />
                   <dd>{c.age}</dd>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <dt className="sr-only">Davomiylik</dt>
-                  <CalendarDays className="size-4 text-forest" aria-hidden="true" />
+                  <CalendarDays className="size-4 text-macaw-deep" aria-hidden="true" />
                   <dd>{c.duration}</dd>
                 </div>
               </dl>
@@ -51,7 +51,7 @@ export default function Courses() {
               <ul className="mt-3 space-y-2.5">
                 {c.learns.map((l) => (
                   <li key={l} className="flex gap-2.5 leading-snug text-ink-soft">
-                    <Check className="mt-0.5 size-4 shrink-0 text-coral" strokeWidth={3} aria-hidden="true" />
+                    <Check className="mt-0.5 size-4 shrink-0 text-green-deep" strokeWidth={3} aria-hidden="true" />
                     {l}
                   </li>
                 ))}
@@ -62,7 +62,7 @@ export default function Courses() {
 
         <div
           data-reveal="up"
-          className="mt-6 grid overflow-hidden rounded-[28px] bg-cream-deep sm:grid-cols-5 lg:mt-8"
+          className="mt-6 grid overflow-hidden rounded-[24px] border-2 border-b-4 border-[#84d8ff] bg-blue-pale sm:grid-cols-5 lg:mt-8"
         >
           <Photo
             name="ota-bola"
@@ -75,7 +75,7 @@ export default function Courses() {
             <p className="mt-3 max-w-lg leading-relaxed text-ink-soft">{courses.adults.text}</p>
             <a
               href="#yozilish"
-              className="group mt-6 inline-flex items-center gap-2 self-start font-bold text-forest"
+              className="group mt-6 inline-flex items-center gap-2 self-start font-extrabold tracking-[0.04em] text-blue-ink uppercase"
             >
               Kattalar kursiga yozilish
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />

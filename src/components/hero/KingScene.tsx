@@ -101,7 +101,7 @@ export default function KingScene(props: KingSceneProps) {
           far={1.6}
           resolution={512}
           frames={1}
-          color="#1f4d3a"
+          color="#2f4a12"
         />
       </Suspense>
     </Canvas>

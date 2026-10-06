@@ -150,9 +150,9 @@ export default function Hero() {
           <div ref={textRef} className="relative z-10 mt-2 lg:col-span-6 lg:mt-0">
             <p
               data-reveal="hero"
-              className="mb-5 inline-flex items-center gap-2 rounded-full bg-forest/8 px-3.5 py-1.5 text-sm font-semibold text-forest"
+              className="mb-5 inline-flex items-center gap-2 rounded-full bg-green-pale px-3.5 py-1.5 text-sm font-bold text-green-ink"
             >
-              <span className="size-1.5 rounded-full bg-coral" aria-hidden="true" />
+              <span className="size-1.5 rounded-full bg-green" aria-hidden="true" />
               {hero.eyebrow}
             </p>
             <h1
@@ -169,14 +169,14 @@ export default function Hero() {
             <div data-reveal="hero" className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href="#yozilish"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-coral px-7 py-4 text-base font-bold text-ink shadow-[0_10px_30px_-10px_rgba(255,107,74,0.7)] transition-transform hover:-translate-y-0.5"
+                className="group btn-3d inline-flex items-center justify-center gap-2 rounded-2xl bg-green font-extrabold tracking-[0.06em] text-on-green uppercase px-7 py-4 text-[15px]"
               >
                 {hero.ctaPrimary}
                 <ArrowRight className="size-5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </a>
               <a
                 href="#kurslar"
-                className="inline-flex items-center justify-center rounded-full border border-ink/15 px-6 py-4 text-base font-semibold text-ink transition-colors hover:border-forest hover:text-forest"
+                className="btn-3d inline-flex items-center justify-center rounded-2xl border-2 border-swan bg-paper font-extrabold tracking-[0.06em] text-humpback uppercase [--btn-shadow:var(--color-swan)] px-6 py-4 text-[15px]"
               >
                 {hero.ctaSecondary}
               </a>
@@ -184,7 +184,7 @@ export default function Hero() {
             <ul data-reveal="hero" className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
               {hero.badges.map((b) => (
                 <li key={b} className="flex items-center gap-1.5 text-[15px] font-medium text-ink-soft">
-                  <Check className="size-4 text-forest" strokeWidth={3} aria-hidden="true" />
+                  <Check className="size-4 text-green-deep" strokeWidth={3} aria-hidden="true" />
                   {b}
                 </li>
               ))}
@@ -199,7 +199,7 @@ export default function Hero() {
               className="pointer-events-none absolute inset-0 opacity-60"
               style={{
                 backgroundImage:
-                  'radial-gradient(ellipse 60% 55% at 50% 60%, rgba(255,107,74,0.10), transparent 70%), conic-gradient(from 0deg at 50% 50%, #f1ebdd 0 25%, transparent 0 50%, #f1ebdd 0 75%, transparent 0)',
+                  'radial-gradient(ellipse 60% 55% at 50% 60%, rgba(88,204,2,0.10), transparent 70%), conic-gradient(from 0deg at 50% 50%, #eaf7dc 0 25%, transparent 0 50%, #eaf7dc 0 75%, transparent 0)',
                 backgroundSize: '100% 100%, 64px 64px',
                 maskImage: 'radial-gradient(ellipse 50% 50% at 50% 62%, #000 15%, transparent 72%)',
                 WebkitMaskImage: 'radial-gradient(ellipse 50% 50% at 50% 62%, #000 15%, transparent 72%)',

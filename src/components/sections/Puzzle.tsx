@@ -39,7 +39,7 @@ export default function Puzzle() {
   const [tx, ty] = toXY(correctOpt.to);
 
   return (
-    <section id="mashq" className="cv bg-cream-deep py-20 lg:py-32" aria-labelledby="mashq-title">
+    <section id="mashq" className="cv bg-polar py-20 lg:py-32" aria-labelledby="mashq-title">
       <div className="mx-auto grid max-w-7xl gap-x-16 gap-y-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
         <div className="self-end lg:col-span-5 lg:row-start-1">
           <SectionHeading id="mashq-title" eyebrow={puzzle.eyebrow} title={puzzle.title} lead={puzzle.lead} />
@@ -61,20 +61,20 @@ export default function Puzzle() {
                   onBlur={() => setHover(null)}
                   disabled={solved}
                   aria-pressed={picked === i}
-                  className={`flex items-center justify-between rounded-2xl border-2 px-5 py-4 text-left text-lg font-bold transition-colors disabled:cursor-default ${
+                  className={`flex items-center justify-between rounded-2xl border-2 border-b-4 px-5 py-4 text-left text-lg font-bold transition-colors disabled:cursor-default ${
                     state === 'ok'
-                      ? 'border-forest bg-forest text-cream'
+                      ? 'border-green bg-green-pale text-green-ink'
                       : state === 'bad'
-                        ? 'border-coral bg-coral/10 text-ink'
-                        : 'border-ink/10 bg-cream hover:border-forest'
+                        ? 'border-cardinal bg-[#ffdfe0] text-cardinal-ink'
+                        : 'border-swan bg-paper hover:bg-polar'
                   }`}
                 >
                   <span>
                     <span className="mr-3 inline-block w-6 opacity-55 tabular-nums">{String.fromCharCode(65 + i)}</span>
                     {o.move}
                   </span>
-                  {state === 'ok' && <CircleCheck className="size-6" aria-hidden="true" />}
-                  {state === 'bad' && <CircleX className="size-6 text-coral" aria-hidden="true" />}
+                  {state === 'ok' && <CircleCheck className="size-6 text-green-deep" aria-hidden="true" />}
+                  {state === 'bad' && <CircleX className="size-6 text-cardinal-ink" aria-hidden="true" />}
                 </button>
               );
             })}
@@ -83,7 +83,7 @@ export default function Puzzle() {
           <div aria-live="polite" className="mt-5 min-h-[5.5rem]">
             {choice && (
               <div key={`${picked}-${shake}`} className="puzzle-msg">
-                <p className={`font-semibold ${solved ? 'text-forest' : 'text-[#b8381c]'}`}>{choice.explain}</p>
+                <p className={`font-semibold ${solved ? 'text-green-ink' : 'text-cardinal-ink'}`}>{choice.explain}</p>
                 <button
                   type="button"
                   onClick={() => setPicked(null)}
@@ -103,7 +103,7 @@ export default function Puzzle() {
             className={`mx-auto w-full max-w-[560px] ${shake && !solved ? 'puzzle-shake' : ''}`}
             data-board
           >
-            <div className="rounded-[24px] bg-forest p-3 shadow-[0_40px_80px_-40px_rgba(22,58,43,0.7)] sm:p-4">
+            <div className="rounded-[24px] bg-night p-3 shadow-[0_40px_80px_-40px_rgba(19,31,36,0.6)] sm:p-4">
               <div
                 role="img"
                 aria-label="Shaxmat pozitsiyasi: oq shoh g1, oq ruh d1, oq piyodalar f2, g2, h2; qora shoh g8, qora piyodalar f7, g7, h7, qora farzin c4, qora ruh a2."
@@ -122,19 +122,19 @@ export default function Puzzle() {
                       <div
                         key={sq}
                         data-square
-                        className={`relative flex items-center justify-center ${dark ? 'bg-[#7fa58b]' : 'bg-[#eef3e6]'}`}
+                        className={`relative flex items-center justify-center ${dark ? 'bg-[#7dcb3f]' : 'bg-[#eaf7dc]'}`}
                       >
                         {(isFrom || isTo) && !solved && (
-                          <span aria-hidden="true" className="absolute inset-0 bg-coral/45" />
+                          <span aria-hidden="true" className="absolute inset-0 bg-bee/65" />
                         )}
-                        {mated && <span aria-hidden="true" className="puzzle-mate absolute inset-0 bg-coral" />}
+                        {mated && <span aria-hidden="true" className="puzzle-mate absolute inset-0 bg-cardinal" />}
                         {x === 0 && (
-                          <span className={`absolute top-0.5 left-1 text-[10px] font-bold sm:text-xs ${dark ? 'text-[#eef3e6]' : 'text-[#5c8a6b]'}`}>
+                          <span className={`absolute top-0.5 left-1 text-[10px] font-bold sm:text-xs ${dark ? 'text-[#eaf7dc]' : 'text-green-deep'}`}>
                             {8 - y}
                           </span>
                         )}
                         {y === 7 && (
-                          <span className={`absolute right-1 bottom-0.5 text-[10px] font-bold sm:text-xs ${dark ? 'text-[#eef3e6]' : 'text-[#5c8a6b]'}`}>
+                          <span className={`absolute right-1 bottom-0.5 text-[10px] font-bold sm:text-xs ${dark ? 'text-[#eaf7dc]' : 'text-green-deep'}`}>
                             {FILES[x]}
                           </span>
                         )}

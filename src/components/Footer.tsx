@@ -4,7 +4,7 @@ import { Logo } from './Logo';
 
 export default function Footer() {
   return (
-    <footer id="site-footer" className="cv bg-cream text-ink">
+    <footer id="site-footer" className="cv bg-paper text-ink">
       <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -17,7 +17,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2.5 text-ink-soft">
               {nav.map((n) => (
                 <li key={n.href}>
-                  <a href={n.href} className="hover:text-forest">
+                  <a href={n.href} className="hover:text-green-ink">
                     {n.label}
                   </a>
                 </li>
@@ -31,20 +31,20 @@ export default function Footer() {
             </p>
             <ul className="mt-4 space-y-2.5 text-ink-soft">
               <li>
-                <a href={brand.phoneHref} className="flex items-center gap-2 hover:text-forest">
-                  <Phone className="size-4 text-forest" aria-hidden="true" />
+                <a href={brand.phoneHref} className="flex items-center gap-2 hover:text-green-ink">
+                  <Phone className="size-4 text-green-ink" aria-hidden="true" />
                   {brand.phone}
                 </a>
               </li>
               <li>
-                <a href={brand.telegram} className="flex items-center gap-2 hover:text-forest">
-                  <Send className="size-4 text-forest" aria-hidden="true" />
+                <a href={brand.telegram} className="flex items-center gap-2 hover:text-green-ink">
+                  <Send className="size-4 text-green-ink" aria-hidden="true" />
                   {brand.telegramLabel}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${brand.email}`} className="flex items-center gap-2 hover:text-forest">
-                  <Mail className="size-4 text-forest" aria-hidden="true" />
+                <a href={`mailto:${brand.email}`} className="flex items-center gap-2 hover:text-green-ink">
+                  <Mail className="size-4 text-green-ink" aria-hidden="true" />
                   {brand.email}
                 </a>
               </li>
@@ -52,7 +52,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-ink/10 pt-6 text-sm text-ink-soft md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-3 border-t-2 border-swan pt-6 text-sm text-ink-soft md:flex-row md:items-center md:justify-between">
           <p>
             © {new Date().getFullYear()} {brand.name}
           </p>

@@ -1,17 +1,17 @@
 import { coaches, showSampleBadges } from '@/content/site';
 import SectionHeading from '@/components/ui/SectionHeading';
 
-const tones = ['bg-forest text-cream', 'bg-coral text-ink', 'bg-ink text-cream'];
+const tones = ['bg-green text-night', 'bg-macaw text-night', 'bg-bee text-night'];
 
 export default function Coaches() {
   return (
-    <section id="murabbiylar" className="cv bg-cream py-20 lg:py-32" aria-labelledby="murabbiylar-title">
+    <section id="murabbiylar" className="cv bg-paper py-20 lg:py-32" aria-labelledby="murabbiylar-title">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading id="murabbiylar-title" eyebrow={coaches.eyebrow} title={coaches.title} lead={coaches.lead} />
 
         <ul data-cards className="mt-14 grid gap-5 md:grid-cols-3 lg:gap-6">
           {coaches.items.map((c, i) => (
-            <li key={c.name} data-card className="group relative rounded-[28px] border border-ink/8 bg-white/70 p-7 lg:p-8">
+            <li key={c.name} data-card className="group relative rounded-[24px] border-2 border-b-4 border-swan bg-paper p-7 lg:p-8">
               {showSampleBadges && (
                 <span className="absolute top-6 right-6 rounded-full border border-dashed border-ink/25 px-2.5 py-1 text-xs font-semibold text-ink-soft">
                   namuna
@@ -20,12 +20,12 @@ export default function Coaches() {
               <div
                 data-avatar
                 aria-hidden="true"
-                className={`flex size-24 items-center justify-center rounded-[26px] font-display text-3xl font-black tracking-tight ${tones[i % tones.length]}`}
+                className={`flex size-24 items-center justify-center rounded-[22px] border-b-4 border-night/15 font-display text-3xl font-black tracking-tight ${tones[i % tones.length]}`}
               >
                 {c.initials}
               </div>
               <h3 className="mt-7 text-xl font-bold">{c.name}</h3>
-              <p className="mt-1 text-sm font-semibold text-forest">{c.role}</p>
+              <p className="mt-1 text-sm font-semibold text-green-ink">{c.role}</p>
               <p className="mt-4 leading-relaxed text-ink-soft">{c.text}</p>
             </li>
           ))}

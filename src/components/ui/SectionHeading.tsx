@@ -16,7 +16,7 @@ export default function SectionHeading({ eyebrow, title, lead, id, dark = false,
       {eyebrow && (
         <p
           data-reveal="up"
-          className={`mb-4 text-sm font-bold tracking-[0.14em] uppercase ${dark ? 'text-coral' : 'text-forest'}`}
+          className={`mb-4 text-sm font-bold tracking-[0.14em] uppercase ${dark ? 'text-bee' : 'text-green-ink'}`}
         >
           {eyebrow}
         </p>
@@ -24,14 +24,14 @@ export default function SectionHeading({ eyebrow, title, lead, id, dark = false,
       <h2
         id={id}
         data-split="lines"
-        className={`font-display text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl ${dark ? 'text-cream' : 'text-ink'}`}
+        className={`font-display text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl ${dark ? 'text-paper' : 'text-ink'}`}
       >
         {display(title)}
       </h2>
       {lead && (
         <p
           data-reveal="up"
-          className={`mt-5 text-lg leading-relaxed ${dark ? 'text-cream/75' : 'text-ink-soft'} ${center ? 'mx-auto' : ''}`}
+          className={`mt-5 text-lg leading-relaxed ${dark ? 'text-paper/75' : 'text-ink-soft'} ${center ? 'mx-auto' : ''}`}
         >
           {lead}
         </p>

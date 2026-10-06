@@ -1,15 +1,52 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #faf7f0;
-  --color-cream-deep: #f1ebdd;
-  --color-forest: #1f4d3a;
-  --color-forest-deep: #163a2b;
-  --color-coral: #ff6b4a;
-  --color-ink: #1a1a1a;
-  --color-ink-soft: #4a4a45;
+  /* Duolingo palitrasi asosida (nomlar — Duolingo brand ranglari) */
+  --color-paper: #ffffff; /* Snow */
+  --color-polar: #f7f7f7; /* Polar — muqobil bo'lim foni */
+  --color-swan: #e5e5e5; /* Swan — chegaralar */
+  --color-ink: #3c3c3c; /* asosiy matn */
+  --color-ink-soft: #6b6b6b; /* ikkinchi darajali matn (Wolf'ga yaqin, AA kontrast) */
+  --color-night: #131f24; /* to'q bloklar */
+  --color-night-soft: #1f2d33;
+
+  --color-green: #58cc02; /* Feather Green — asosiy CTA */
+  --color-green-deep: #58a700; /* tugma soyasi, ikonkalar */
+  --color-green-ink: #357c00; /* oq fonda kichik yashil matn (AA) */
+  --color-green-pale: #d7ffb8;
+
+  --color-macaw: #1cb0f6; /* Macaw Blue */
+  --color-macaw-deep: #1899d6;
+  --color-humpback: #2b70c9; /* to'q ko'k bloklar (oq matn AA) */
+  --color-blue-ink: #1453a3;
+  --color-blue-pale: #ddf4ff;
+
+  --color-bee: #ffc800; /* Bee Yellow */
+  --color-bee-deep: #e5b400;
+  --color-bee-pale: #fff4cc;
+  --color-bee-ink: #7a4e00;
+  --color-cardinal: #ff4b4b; /* Cardinal Red */
+  --color-cardinal-ink: #d92b2b;
+  --color-beetle: #ce82ff;
+
+  /* Yashil tugma ustidagi matn. Duolingo'dagidek oq; WCAG AA kerak bo'lsa #131f24 qiling. */
+  --color-on-green: #ffffff;
+
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-nunito), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Duolingo uslubidagi "3D" tugma: pastki qalin soya, bosilganda pastga tushadi (faqat transform) */
+@utility btn-3d {
+  box-shadow: 0 4px 0 var(--btn-shadow, var(--color-green-deep));
+  transition: transform 0.12s ease, filter 0.15s ease;
+  &:hover {
+    filter: brightness(1.05);
+  }
+  &:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 var(--btn-shadow, var(--color-green-deep));
+  }
 }
 
 /* Body shrifti: avval Inter'ning metrikasi moslashtirilgan zaxirasi, yuklangach Inter */
@@ -21,23 +58,23 @@
 }
 
 html {
-  background: var(--color-cream);
+  background: var(--color-paper);
   color: var(--color-ink);
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--color-cream);
+  background: var(--color-paper);
   font-family: var(--font-sans);
 }
 
 ::selection {
-  background: var(--color-coral);
-  color: var(--color-ink);
+  background: var(--color-bee);
+  color: var(--color-night);
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-coral);
+  outline: 3px solid var(--color-macaw);
   outline-offset: 3px;
   border-radius: 6px;
 }

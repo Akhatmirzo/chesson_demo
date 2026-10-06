@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#faf7f0',
+  themeColor: '#ffffff',
 };
 
 // JS mavjud bo'lsa, animatsiya qilinadigan elementlarni boshidanoq yashiradi (miltillamaslik uchun)

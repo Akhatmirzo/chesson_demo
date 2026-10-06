@@ -61,12 +61,12 @@ type Props = SVGProps<SVGSVGElement> & { piece: string };
 /** piece: 'K','Q','R','B','N','P' — oq; kichik harf — qora */
 export default function ChessPiece({ piece, ...rest }: Props) {
   const white = piece === piece.toUpperCase();
-  const fill = white ? '#fffdf8' : '#1a1a1a';
-  const detail = white ? '#1a1a1a' : '#fffdf8';
+  const fill = white ? '#fffdf8' : '#131f24';
+  const detail = white ? '#131f24' : '#fffdf8';
   const shape = SHAPES[piece.toLowerCase()];
   if (!shape) return null;
   return (
-    <svg viewBox="0 0 45 45" fill={fill} stroke="#1a1a1a" strokeWidth="1.5" strokeLinejoin="round" {...rest}>
+    <svg viewBox="0 0 45 45" fill={fill} stroke="#131f24" strokeWidth="1.5" strokeLinejoin="round" {...rest}>
       {shape(detail)}
     </svg>
   );

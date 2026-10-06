@@ -33,35 +33,54 @@ export function Header() {
   }, [menu]);
 
   return (
-    <header className={`${s.header} ${scrolled ? s.scrolled : ''}`}>
-      <div className={`container ${s.inner}`}>
-        <a href="#top" className={s.brand} aria-label="Chesson — bosh sahifa">
-          <Logo size={34} />
-        </a>
-        <nav className={s.nav} aria-label="Asosiy navigatsiya">
-          {NAV.map((n) => (
-            <a key={n.href} href={n.href}>
-              {n.label}
-            </a>
-          ))}
-        </nav>
-        <div className={s.actions}>
-          <a href={PLATFORM_URL} className={s.login}>
-            <LogIn size={17} aria-hidden="true" />
-            Kirish
+    <>
+      <header className={`${s.header} ${scrolled ? s.scrolled : ''} ${menu ? s.solid : ''}`}>
+        <div className={`container ${s.inner}`}>
+          <a href="#top" className={s.brand} aria-label="Chesson — bosh sahifa">
+            <Logo size={34} />
           </a>
-          <button type="button" className={`btn btn-primary ${s.cta}`} onClick={() => open('header')}>
-            Bepul dars
-          </button>
-          <button type="button" className={s.burger} aria-label={menu ? 'Menyuni yopish' : 'Menyu'} aria-expanded={menu} onClick={() => setMenu((m) => !m)}>
-            {menu ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          <nav className={s.nav} aria-label="Asosiy navigatsiya">
+            {NAV.map((n) => (
+              <a key={n.href} href={n.href}>
+                {n.label}
+              </a>
+            ))}
+          </nav>
+          <div className={s.actions}>
+            <a href={PLATFORM_URL} className={s.login}>
+              <LogIn size={17} aria-hidden="true" />
+              Kirish
+            </a>
+            <button
+              type="button"
+              className={`btn btn-primary ${s.cta}`}
+              onClick={() => open('header')}
+            >
+              Bepul dars
+            </button>
+            <button
+              type="button"
+              className={s.burger}
+              aria-label={menu ? 'Menyuni yopish' : 'Menyu'}
+              aria-expanded={menu}
+              onClick={() => setMenu((m) => !m)}
+            >
+              {menu ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
+      {/* Menyu header'dan tashqarida: header'dagi blur/animatsiya fixed elementni o'z ichiga «qamab» qo'ymasligi uchun */}
       <div className={`${s.sheet} ${menu ? s.sheetOpen : ''}`} aria-hidden={!menu}>
         <nav className={s.sheetNav}>
           {NAV.map((n, i) => (
-            <a key={n.href} href={n.href} onClick={() => setMenu(false)} style={{ transitionDelay: menu ? `${60 + i * 40}ms` : '0ms' }} tabIndex={menu ? 0 : -1}>
+            <a
+              key={n.href}
+              href={n.href}
+              onClick={() => setMenu(false)}
+              style={{ transitionDelay: menu ? `${60 + i * 40}ms` : '0ms' }}
+              tabIndex={menu ? 0 : -1}
+            >
               {n.label}
             </a>
           ))}
@@ -81,6 +100,6 @@ export function Header() {
           </button>
         </nav>
       </div>
-    </header>
+    </>
   );
 }

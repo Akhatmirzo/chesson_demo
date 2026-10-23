@@ -1,29 +1,20 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useT } from './providers';
 import s from './Motivation.module.css';
 
-const LEVELS = [
-  { name: 'Piyoda', img: 'wP' },
-  { name: 'Ot', img: 'wN' },
-  { name: 'Fil', img: 'wB' },
-  { name: 'Ruh', img: 'wR' },
-  { name: 'Farzin', img: 'wQ' },
-];
+/** Daraja donalari (nomi lug'atda — `motivation.levels`) */
+const LEVELS = ['wP', 'wN', 'wB', 'wR', 'wQ'];
 
-const EARN = [
-  { label: 'Zadacha', v: '+1', tone: 'violet' },
-  { label: "O'yinda g'alaba", v: '+1', tone: 'amber' },
-  { label: 'Darsda qatnashish', v: '+10', tone: 'green' },
-  { label: 'Uyga vazifa', v: '10 gacha', tone: 'blue' },
-  { label: '7 kunlik seriya', v: '+20', tone: 'orange' },
-  { label: 'Ustoz bonusi', v: '+1–5', tone: 'violet' },
-];
+/** Tanga manbalari rangi (matni lug'atda — `motivation.earn`) */
+const EARN_TONES = ['violet', 'amber', 'green', 'blue', 'orange', 'violet'];
 
 const MEDALS = ['ach-firstwin', 'ach-streak', 'ach-puzzle', 'ach-win', 'ach-friends', 'ach-throne'];
 const OPPONENTS = ['ant', 'chick', 'bunny', 'fox', 'wolf', 'bear', 'eagle', 'lion'];
 
 export function Motivation() {
+  const t = useT().motivation;
   const ref = useRef<HTMLDivElement>(null);
   const [lvl, setLvl] = useState(0);
 
@@ -31,7 +22,7 @@ export function Motivation() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    let t: number | undefined;
+    let timer: number | undefined;
     const io = new IntersectionObserver(
       ([en]) => {
         if (!en.isIntersecting) return;
@@ -40,16 +31,16 @@ export function Motivation() {
         const step = () => {
           i += 1;
           setLvl(i);
-          if (i < LEVELS.length - 1) t = window.setTimeout(step, 520);
+          if (i < LEVELS.length - 1) timer = window.setTimeout(step, 520);
         };
-        t = window.setTimeout(step, 400);
+        timer = window.setTimeout(step, 400);
       },
       { threshold: 0.5 },
     );
     io.observe(el);
     return () => {
       io.disconnect();
-      clearTimeout(t);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -57,28 +48,26 @@ export function Motivation() {
     <section className={`section ${s.section}`} id="motivatsiya">
       <div className="container">
         <div className="head-center reveal">
-          <span className="eyebrow">Motivatsiya</span>
-          <h2 className="h2">
-            O&apos;qish — <span className="grad-text">o&apos;yindek qiziqarli</span>
-          </h2>
-          <p className="lead">Tanga, XP, darajalar va medallar bolani har kuni o&apos;zi xohlab shaxmatga qaytaradi. Yig&apos;ilgan tangalarga do&apos;kondan sovg&apos;a oladi.</p>
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h2 className="h2">{t.title}</h2>
+          <p className="lead">{t.lead}</p>
         </div>
 
         <div className={s.bento}>
           <article className={`${s.card} ${s.levels} reveal`} ref={ref}>
-            <h3>Piyodadan Farzingacha</h3>
-            <p>Har bir dars, vazifa va zadacha XP beradi — bola darajama-daraja ko&apos;tariladi.</p>
+            <h3>{t.levelsTitle}</h3>
+            <p>{t.levelsText}</p>
             <div className={s.path} style={{ ['--p' as string]: lvl / (LEVELS.length - 1) }}>
               <span className={s.track}>
                 <i />
               </span>
-              {LEVELS.map((l, i) => (
-                <span key={l.name} className={`${s.node} ${i <= lvl ? s.nodeOn : ''}`}>
+              {LEVELS.map((img, i) => (
+                <span key={img} className={`${s.node} ${i <= lvl ? s.nodeOn : ''}`}>
                   <span className={s.badge}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/kidpieces/${l.img}.webp`} alt="" width={40} height={40} loading="lazy" />
+                    <img src={`/kidpieces/${img}.webp`} alt="" width={40} height={40} loading="lazy" />
                   </span>
-                  <small>{l.name}</small>
+                  <small>{t.levels[i]}</small>
                 </span>
               ))}
             </div>
@@ -89,23 +78,23 @@ export function Motivation() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/art/dokonchi-tanga.webp" alt="" width={64} height={64} loading="lazy" />
               <div>
-                <h3>Tanga qanday yig&apos;iladi?</h3>
-                <p>Do&apos;kondan avatar, unvon va sovg&apos;alar olish uchun.</p>
+                <h3>{t.earnTitle}</h3>
+                <p>{t.earnText}</p>
               </div>
             </div>
             <ul>
-              {EARN.map((e) => (
-                <li key={e.label} className={s[e.tone]}>
-                  <span>{e.label}</span>
-                  <b>{e.v}</b>
+              {t.earn.map(([label, v], i) => (
+                <li key={label} className={s[EARN_TONES[i]]}>
+                  <span>{label}</span>
+                  <b>{v}</b>
                 </li>
               ))}
             </ul>
           </article>
 
           <article className={`${s.card} ${s.medals} reveal`} style={{ ['--d' as string]: '160ms' }}>
-            <h3>Medallar</h3>
-            <p>Birinchi g&apos;alaba, 7 kunlik seriya, «Boshqotirma qiroli»…</p>
+            <h3>{t.medalsTitle}</h3>
+            <p>{t.medalsText}</p>
             <div className={s.medalRow}>
               {MEDALS.map((m, i) => (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -115,8 +104,8 @@ export function Motivation() {
           </article>
 
           <article className={`${s.card} ${s.opps} reveal`} style={{ ['--d' as string]: '220ms' }}>
-            <h3>8 ta raqib — chumolidan sherga</h3>
-            <p>Kompyuter raqiblari bola bilan birga «o&apos;sadi».</p>
+            <h3>{t.oppsTitle}</h3>
+            <p>{t.oppsText}</p>
             <div className={s.oppRow}>
               {OPPONENTS.map((o, i) => (
                 // eslint-disable-next-line @next/next/no-img-element

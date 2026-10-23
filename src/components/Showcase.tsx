@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { SHOWCASE } from '@/content/showcase';
+import { SHOWCASE, withText } from '@/content/showcase';
 import { BrowserFrame, Shot } from './Frames';
 import { Hotspots } from './Hotspots';
+import { useT } from './providers';
 import s from './Showcase.module.css';
 
 const DESKTOP = '(min-width: 1024px)';
@@ -14,6 +15,7 @@ const DESKTOP = '(min-width: 1024px)';
  * Telefonda: oddiy tablar va barmoq bilan surish.
  */
 export function Showcase() {
+  const t = useT().showcase;
   const [active, setActive] = useState(0);
   const [sub, setSub] = useState(0); // joriy qadam ichidagi ulush (0..1) — chap ro'yxatdagi chiziq uchun
   const track = useRef<HTMLDivElement>(null);
@@ -64,16 +66,15 @@ export function Showcase() {
   );
 
   const step = SHOWCASE[active];
+  const stepText = t.steps[active];
 
   return (
     <section id="platforma" className={s.section}>
       <div className="container">
         <div className="head-center reveal">
-          <span className="eyebrow">Bizning platforma</span>
-          <h2 className="h2">
-            O&apos;quvchi uchun <span className="grad-text">to&apos;liq onlayn muhit</span>
-          </h2>
-          <p className="lead">Chesson — bu shunchaki dars emas. Bola o&apos;ynaydi, mashq qiladi, tanga yig&apos;adi va o&apos;z o&apos;sishini kuzatib boradi.</p>
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h2 className="h2">{t.title}</h2>
+          <p className="lead">{t.lead}</p>
         </div>
       </div>
 
@@ -81,7 +82,7 @@ export function Showcase() {
         <div className={s.sticky}>
           <div className={`container ${s.layout}`}>
             <div className={s.side}>
-              <div className={s.tabs} role="tablist" aria-label="Platforma bo'limlari">
+              <div className={s.tabs} role="tablist" aria-label={t.tabsLabel}>
                 {SHOWCASE.map((st, i) => (
                   <button
                     key={st.id}
@@ -93,9 +94,9 @@ export function Showcase() {
                   >
                     <span className={s.tabNum}>{String(i + 1).padStart(2, '0')}</span>
                     <span className={s.tabBody}>
-                      <span className={s.tabLabel}>{st.label}</span>
-                      <span className={s.tabTitle}>{st.title}</span>
-                      <span className={s.tabText}>{st.text}</span>
+                      <span className={s.tabLabel}>{t.steps[i].label}</span>
+                      <span className={s.tabTitle}>{t.steps[i].title}</span>
+                      <span className={s.tabText}>{t.steps[i].text}</span>
                     </span>
                     <span className={s.bar} aria-hidden="true">
                       <i style={{ transform: `scaleY(${i < active ? 1 : i === active ? Math.max(0.04, sub) : 0})` }} />
@@ -119,18 +120,18 @@ export function Showcase() {
                 <BrowserFrame url={`crm.chesson.uz/${step.id === 'bosh' ? '' : step.id}`}>
                   {SHOWCASE.map((st, i) => (
                     <div key={st.id} className={`${s.layer} ${i === active ? s.layerOn : ''}`} aria-hidden={i !== active}>
-                      <Shot name={st.shot} alt={st.alt} sizes="(max-width: 1024px) 94vw, 760px" />
-                      {i === active && <Hotspots spots={st.spots} auto={i === 0} />}
+                      <Shot name={st.shot} alt={t.steps[i].alt} sizes="(max-width: 1024px) 94vw, 760px" />
+                      {i === active && <Hotspots spots={withText(st.spots, t.steps[i].spots)} auto={i === 0} />}
                     </div>
                   ))}
                 </BrowserFrame>
               </div>
               <div className={s.mobileText} aria-live="polite">
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
+                <h3>{stepText.title}</h3>
+                <p>{stepText.text}</p>
               </div>
               <div className={s.pager}>
-                <button type="button" aria-label="Oldingi" onClick={() => go(active - 1)}>
+                <button type="button" aria-label={t.prev} onClick={() => go(active - 1)}>
                   <ChevronLeft size={20} />
                 </button>
                 <span className={s.dots}>
@@ -138,11 +139,11 @@ export function Showcase() {
                     <i key={st.id} className={i === active ? s.dotOn : ''} />
                   ))}
                 </span>
-                <button type="button" aria-label="Keyingi" onClick={() => go(active + 1)}>
+                <button type="button" aria-label={t.next} onClick={() => go(active + 1)}>
                   <ChevronRight size={20} />
                 </button>
               </div>
-              <p className={s.hint}>Raqamli nuqtalarni bosib ko&apos;ring</p>
+              <p className={s.hint}>{t.hint}</p>
             </div>
           </div>
         </div>

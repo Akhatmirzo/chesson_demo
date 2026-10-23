@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, Flame, MonitorPlay, Sparkles } from 'lucide-react';
 import { BrowserFrame, PhoneFrame, Shot } from './Frames';
-import { useLanding, useLead } from './providers';
+import { useLanding, useLead, useT } from './providers';
 import s from './Hero.module.css';
 
 /** "2,400+" → 0 dan 2400 gacha sanab chiqadi, qolgan belgilar (+, ★) saqlanadi */
@@ -35,18 +35,10 @@ function CountUp({ value, delay }: { value: string; delay: number }) {
   return <>{shown}</>;
 }
 
-const TITLE: { w: string; grad?: boolean }[] = [
-  { w: 'Farzandingiz' },
-  { w: 'uchun' },
-  { w: 'birinchi', grad: true },
-  { w: 'bepul', grad: true },
-  { w: 'sinov' },
-  { w: 'darsi' },
-];
-
 export function Hero() {
   const { promo, stats } = useLanding();
   const { open } = useLead();
+  const t = useT();
   const introSec = typeof document !== 'undefined' && document.documentElement.classList.contains('intro') ? 1.3 : 0.05;
 
   return (
@@ -65,31 +57,30 @@ export function Hero() {
               </>
             ) : (
               <>
-                <Sparkles size={15} aria-hidden="true" /> Birinchi dars — bepul va majburiyatsiz
+                <Sparkles size={15} aria-hidden="true" /> {t.hero.chip}
               </>
             )}
           </p>
           <h1 className={s.title}>
-            {TITLE.map((t, i) => (
+            {t.hero.title.map((w, i) => (
               <span key={i}>
                 <span className={s.wordWrap}>
-                  <span className={`${s.word} ${t.grad ? 'grad-text' : ''}`} style={{ ['--i' as string]: i + 1 }}>
-                    {t.w}
+                  <span className={`${s.word} ${w.grad ? 'grad-text' : ''}`} style={{ ['--i' as string]: i + 1 }}>
+                    {w.w}
                   </span>
                 </span>{' '}
               </span>
             ))}
           </h1>
           <p className={`${s.sub} ${s.in}`} style={{ ['--i' as string]: 6 }}>
-            Farzandingizda <b>mantiq, diqqat va strategik fikrlashni</b> rivojlantiring. Tajribali ustozlar bilan jonli onlayn darslar,
-            o&apos;yin va boshqotirmalar bilan qiziqarli platforma.
+            {t.hero.sub}
           </p>
           <div className={`${s.ctas} ${s.in}`} style={{ ['--i' as string]: 7 }}>
             <button type="button" className="btn btn-primary" onClick={() => open('hero')}>
-              {promo?.ctaLabel || 'Bepul darsga yozilish'} <ArrowRight className="arrow" size={18} aria-hidden="true" />
+              {promo?.ctaLabel || t.hero.cta} <ArrowRight className="arrow" size={18} aria-hidden="true" />
             </button>
             <a href="#platforma" className="btn btn-ghost">
-              <MonitorPlay size={18} aria-hidden="true" /> Platformani ko&apos;rish
+              <MonitorPlay size={18} aria-hidden="true" /> {t.hero.see}
             </a>
           </div>
           {stats.length > 0 && (
@@ -115,7 +106,7 @@ export function Hero() {
             <div data-depth="0.25">
               <div className={s.browserWrap}>
                 <BrowserFrame>
-                  <Shot name="kid-home" alt="O'quvchi paneli: keyingi dars, bugungi tangalar, daraja va uyga vazifa" priority sizes="(max-width: 1024px) 92vw, 640px" />
+                  <Shot name="kid-home" alt={t.hero.shotAlt} priority sizes="(max-width: 1024px) 92vw, 640px" />
                 </BrowserFrame>
               </div>
             </div>
@@ -123,7 +114,7 @@ export function Hero() {
               <div className={s.phoneWrap}>
                 <PhoneFrame>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/shots/phone-home.webp" alt="Telefondagi o'quvchi paneli" width={520} height={1125} />
+                  <img src="/shots/phone-home.webp" alt={t.hero.phoneAlt} width={520} height={1125} />
                 </PhoneFrame>
               </div>
             </div>
@@ -133,8 +124,8 @@ export function Hero() {
                   <Flame size={18} aria-hidden="true" />
                 </span>
                 <span>
-                  <small>Kunlik seriya</small>
-                  <b>12 kun</b>
+                  <small>{t.hero.streak[0]}</small>
+                  <b>{t.hero.streak[1]}</b>
                 </span>
               </div>
             </div>
@@ -143,8 +134,8 @@ export function Hero() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/art/dokonchi-tanga.webp" alt="" width={36} height={36} className={s.coin} />
                 <span>
-                  <small>Dars uchun</small>
-                  <b>+10 tanga</b>
+                  <small>{t.hero.coins[0]}</small>
+                  <b>{t.hero.coins[1]}</b>
                 </span>
               </div>
             </div>
@@ -155,8 +146,8 @@ export function Hero() {
                   <img src="/kidpieces/wN.webp" alt="" width={22} height={22} />
                 </span>
                 <span className={s.xp}>
-                  <small>Ot darajasigacha</small>
-                  <b>73 XP</b>
+                  <small>{t.hero.xp[0]}</small>
+                  <b>{t.hero.xp[1]}</b>
                   <i>
                     <em />
                   </i>

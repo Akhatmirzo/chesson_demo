@@ -62,3 +62,12 @@
 @media (min-width: 641px) and (max-width: 1024px) {
   .burger { display: inline-flex; }
 }
+
+/* Til almashtirgich: UZ | RU (har o'lchamda ko'rinadi — rus tilidagi ota-ona birinchi ekranda topsin) */
+.langs { display: inline-flex; padding: 3px; border-radius: 10px; background: rgba(15, 23, 42, 0.05); }
+.langs a {
+  padding: 5px 9px; border-radius: 8px; font-size: 13px; font-weight: 700; letter-spacing: .02em; color: #64748b;
+  transition: color .2s, background .2s;
+}
+.langs a:hover { color: var(--primary); }
+.langs a[aria-current='true'] { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12); }

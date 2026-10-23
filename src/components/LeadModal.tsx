@@ -3,11 +3,12 @@
 import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { LeadForm } from './LeadForm';
-import { useLead } from './providers';
+import { useLead, useT } from './providers';
 import s from './LeadModal.module.css';
 
 export function LeadModal() {
   const { isOpen, close, source } = useLead();
+  const t = useT();
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -28,11 +29,11 @@ export function LeadModal() {
       aria-labelledby="lead-title"
     >
       <div className={s.box}>
-        <button type="button" className={s.x} onClick={close} aria-label="Yopish">
+        <button type="button" className={s.x} onClick={close} aria-label={t.common.close}>
           <X size={20} />
         </button>
-        <h2 id="lead-title">Bepul sinov darsiga yozilish</h2>
-        <p className={s.sub}>30 daqiqa · onlayn · majburiyatsiz</p>
+        <h2 id="lead-title">{t.lead.title}</h2>
+        <p className={s.sub}>{t.lead.sub}</p>
         {isOpen && <LeadForm source={source} onDone={close} compact />}
       </div>
     </dialog>

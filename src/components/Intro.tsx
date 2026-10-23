@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Logo } from './Logo';
+import { useT } from './providers';
 import s from './Intro.module.css';
 
 const N = 6; // 6×6 katak — yengil, lekin «taxta» seziladi
@@ -11,6 +12,7 @@ const N = 6; // 6×6 katak — yengil, lekin «taxta» seziladi
  * Faqat CSS animatsiya (JS kutubxonasiz), <html class="intro"> bo'lmasa umuman ko'rinmaydi.
  */
 export function Intro() {
+  const t = useT();
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
@@ -41,8 +43,7 @@ export function Intro() {
         })}
       </div>
       <div className={s.logo}>
-        <Logo size={56} />
-        <p className={s.tag}>Onlayn shaxmat maktabi</p>
+        <Logo height={110} priority alt={t.common.logoAlt} />
       </div>
     </div>
   );

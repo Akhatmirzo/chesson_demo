@@ -3,9 +3,12 @@
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
 import { telegramHref, telHref } from '@/lib/api';
 import { Logo } from './Logo';
-import { PLATFORM_URL } from './Header';
-import { useLanding } from './providers';
+import { LangSwitch, PLATFORM_URL } from './Header';
+import { useLanding, useT } from './providers';
 import s from './Footer.module.css';
+
+/** Bo'lim langarlari (matni lug'atda — `footer.links`, shu tartibda) */
+const LINKS = ['#platforma', '#dars', '#ota-onalar', '#murabbiylar', '#savollar'];
 
 function instaHref(v: string) {
   return /^https?:\/\//.test(v) ? v : `https://instagram.com/${v.replace(/^@/, '')}`;
@@ -13,12 +16,13 @@ function instaHref(v: string) {
 
 export function Footer() {
   const { contacts } = useLanding();
+  const t = useT();
   return (
     <footer className={s.footer}>
       <div className={`container ${s.grid}`}>
         <div className={s.brand}>
-          <Logo size={34} />
-          <p>Bolalar uchun onlayn shaxmat maktabi: jonli darslar, qiziqarli platforma va ota-onalar uchun shaffof nazorat.</p>
+          <Logo height={52} alt={t.common.logoAlt} />
+          <p>{t.footer.about}</p>
           <div className={s.social}>
             {contacts.telegram && (
               <a href={telegramHref(contacts.telegram)} target="_blank" rel="noopener noreferrer" aria-label="Telegram">
@@ -36,16 +40,16 @@ export function Footer() {
             )}
           </div>
         </div>
-        <nav className={s.col} aria-label="Sayt bo'limlari">
-          <h3>Sayt</h3>
-          <a href="#platforma">Platforma</a>
-          <a href="#dars">Jonli dars</a>
-          <a href="#ota-onalar">Ota-onalar uchun</a>
-          <a href="#murabbiylar">Murabbiylar</a>
-          <a href="#savollar">Savollar</a>
+        <nav className={s.col} aria-label={t.footer.siteLabel}>
+          <h3>{t.footer.site}</h3>
+          {LINKS.map((href, i) => (
+            <a key={href} href={href}>
+              {t.footer.links[i]}
+            </a>
+          ))}
         </nav>
         <div className={s.col}>
-          <h3>Bog&apos;lanish</h3>
+          <h3>{t.footer.contact}</h3>
           {contacts.phones.map((p) => (
             <a key={p} href={telHref(p)}>
               <Phone size={15} aria-hidden="true" /> {p}
@@ -63,16 +67,19 @@ export function Footer() {
           )}
         </div>
         <div className={s.col}>
-          <h3>O&apos;quvchilar va ustozlar</h3>
+          <h3>{t.footer.users}</h3>
           <a href={PLATFORM_URL} className={s.login}>
-            Platformaga kirish →
+            {t.footer.login}
           </a>
-          <span className={s.note}>Login va parolni maktab administratori beradi.</span>
+          <span className={s.note}>{t.footer.loginNote}</span>
         </div>
       </div>
       <div className={`container ${s.bottom}`}>
-        <span>© {new Date().getFullYear()} Chesson. Barcha huquqlar himoyalangan.</span>
-        <span>Donalar: Lichess (cburnett, GPL)</span>
+        <span>
+          © {new Date().getFullYear()} Chesson. {t.footer.rights}
+        </span>
+        <LangSwitch />
+        <span>{t.footer.pieces}</span>
       </div>
     </footer>
   );

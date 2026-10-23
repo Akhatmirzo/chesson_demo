@@ -1,11 +1,12 @@
 'use client';
 
 import { Plus } from 'lucide-react';
-import { useLanding } from './providers';
+import { useLanding, useT } from './providers';
 import s from './Faq.module.css';
 
 export function Faq() {
   const { faq } = useLanding();
+  const t = useT().faq;
   if (!faq.length) return null;
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -16,8 +17,8 @@ export function Faq() {
     <section id="savollar" className="section">
       <div className="container">
         <div className="head-center reveal">
-          <span className="eyebrow">Savol-javob</span>
-          <h2 className="h2">Ko&apos;p beriladigan savollar</h2>
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h2 className="h2">{t.title}</h2>
         </div>
         <div className={s.list}>
           {faq.map((f, i) => (

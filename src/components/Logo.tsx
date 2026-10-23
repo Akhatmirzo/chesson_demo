@@ -1,16 +1,34 @@
-import { Crown } from 'lucide-react';
 import s from './Logo.module.css';
 
-export function Logo({ size = 34, light = false }: { size?: number; light?: boolean }) {
+/**
+ * Brend logosi («chess on — online shaxmat maktabi», public/brand). `ink` — yorug' fon uchun (matn to'q),
+ * `white` — to'q fon uchun (asl oq). O'lcham — balandlik bo'yicha (nisbat 326×200). `alt` — sahifa tilida.
+ */
+export function Logo({
+  height = 44,
+  variant = 'ink',
+  priority = false,
+  alt = 'Chesson — online shaxmat maktabi',
+}: {
+  height?: number;
+  variant?: 'ink' | 'white';
+  priority?: boolean;
+  alt?: string;
+}) {
+  const src = `/brand/logo-${variant}`;
   return (
-    <span className={s.logo} style={{ ['--s' as string]: `${size}px` }}>
-      <span className={s.mark}>
-        <span className={s.dot} aria-hidden="true" />
-        <Crown size={size * 0.5} color="#fff" aria-hidden="true" />
-      </span>
-      <span className={s.word} style={light ? { color: '#fff' } : undefined}>
-        Chesson
-      </span>
-    </span>
+    <picture className={s.logo}>
+      <source srcSet={`${src}.webp`} type="image/webp" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`${src}.png`}
+        alt={alt}
+        height={height}
+        width={Math.round((height * 326) / 200)}
+        style={{ height, width: 'auto' }}
+        fetchPriority={priority ? 'high' : 'auto'}
+        decoding="async"
+      />
+    </picture>
   );
 }

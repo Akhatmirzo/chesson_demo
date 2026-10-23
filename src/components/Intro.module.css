@@ -28,7 +28,6 @@
   opacity: 0; transform: translateY(14px) scale(.92);
   animation: logoIn .55s var(--ease-spring) .42s forwards;
 }
-.tag { font-size: 14px; color: var(--text-secondary); font-weight: 600; letter-spacing: .02em; }
 
 @keyframes pop { to { transform: scale(1); } }
 @keyframes boardOut { to { opacity: 0; transform: rotate(-2deg) scale(1.35); } }

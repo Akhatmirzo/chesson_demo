@@ -1,7 +1,7 @@
 'use client';
 
 import { Languages, Trophy } from 'lucide-react';
-import { useLanding } from './providers';
+import { useLanding, useT } from './providers';
 import s from './Coaches.module.css';
 
 /** Rasm manzili: "/coaches/..." — landingning o'zida, "/api/..." — admin yuklagan (API orqali), to'liq URL — o'zicha */
@@ -14,6 +14,7 @@ function photoSrc(url: string): string {
 
 export function Coaches() {
   const { coaches } = useLanding();
+  const t = useT().coaches;
   if (!coaches.length) return null;
   // Kompyuterda cheksiz lenta: ro'yxat ikki marta (ikkinchisi ekran o'quvchilardan yashirin)
   const loop = coaches.length >= 4;
@@ -21,11 +22,9 @@ export function Coaches() {
     <section id="murabbiylar" className="section">
       <div className="container">
         <div className="head-center reveal">
-          <span className="eyebrow">Murabbiylar</span>
-          <h2 className="h2">
-            Farzandingizga saboq beradigan <span className="grad-text">tajribali ustozlar</span>
-          </h2>
-          <p className="lead">FIDE unvonli va reytingli murabbiylar — bolalar bilan ishlashni biladigan, sabrli ustozlar.</p>
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h2 className="h2">{t.title}</h2>
+          <p className="lead">{t.lead}</p>
         </div>
       </div>
       <div className={`${s.viewport} reveal`} style={{ ['--d' as string]: '120ms' }}>

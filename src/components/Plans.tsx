@@ -2,23 +2,22 @@
 
 import { Check, Sparkles } from 'lucide-react';
 import { formatSum } from '@/lib/api';
-import { useLanding, useLead } from './providers';
+import { useLanding, useLead, useT } from './providers';
 import s from './Plans.module.css';
 
 /** Tariflar admin panelidan keladi; birorta faol tarif bo'lmasa bo'lim ko'rinmaydi. */
 export function Plans() {
   const { plans } = useLanding();
   const { open } = useLead();
+  const t = useT();
   if (!plans.length) return null;
   return (
     <section id="tariflar" className={`section ${s.section}`}>
       <div className="container">
         <div className="head-center reveal">
-          <span className="eyebrow">Tariflar</span>
-          <h2 className="h2">
-            O&apos;zingizga <span className="grad-text">mos tarifni</span> tanlang
-          </h2>
-          <p className="lead">Avval bepul sinov darsi — keyin qaror qilasiz. Narxlar oylik.</p>
+          <span className="eyebrow">{t.plans.eyebrow}</span>
+          <h2 className="h2">{t.plans.title}</h2>
+          <p className="lead">{t.plans.lead}</p>
         </div>
         <div className={s.grid} style={{ ['--cols' as string]: Math.min(plans.length, 3) }}>
           {plans.map((p, i) => (
@@ -33,7 +32,9 @@ export function Plans() {
               <div className={s.price}>
                 {p.oldPriceUzs ? <s className={s.old}>{formatSum(p.oldPriceUzs)}</s> : null}
                 <b>{formatSum(p.priceUzs)}</b>
-                <span>so&apos;m / {p.periodLabel}</span>
+                <span>
+                  {t.common.currency} / {p.periodLabel}
+                </span>
               </div>
               {p.lessonsLabel && <p className={s.lessons}>{p.lessonsLabel}</p>}
               <ul>
@@ -44,7 +45,7 @@ export function Plans() {
                 ))}
               </ul>
               <button type="button" className={`btn ${p.highlighted ? 'btn-primary' : 'btn-ghost'} ${s.cta}`} onClick={() => open(`tarif:${p.title}`)}>
-                Bepul darsdan boshlash
+                {t.plans.cta}
               </button>
             </article>
           ))}

@@ -1,8 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Hand, LogOut, Mic, Video, LayoutGrid } from 'lucide-react';
+import type { Dict } from '@/i18n';
+import { useT } from './providers';
 import s from './ClassroomDemo.module.css';
+
+type Text = Dict['classroom'];
 
 /* ---------- taxta ---------- */
 type Sq = string; // "e4"
@@ -29,7 +33,8 @@ type Act =
   | { t: 'clear' }
   | { t: 'reset' };
 
-const SCRIPT: [number, Act][] = [
+/** Ssenariy (chat matnlari sahifa tilida) */
+const makeScript = (c: Text): [number, Act][] => [
   [900, { t: 'move', from: 'e2', to: 'e4' }],
   [900, { t: 'move', from: 'e7', to: 'e5' }],
   [900, { t: 'move', from: 'g1', to: 'f3' }],
@@ -38,12 +43,12 @@ const SCRIPT: [number, Act][] = [
   [900, { t: 'move', from: 'g8', to: 'f6' }],
   [1000, { t: 'arrow', from: 'f3', to: 'g5' }],
   [500, { t: 'arrow', from: 'c4', to: 'f7' }],
-  [600, { t: 'chat', msg: { who: 'ustoz', text: "Ot g5 ga borsa — qaysi katak himoyasiz qoladi? 🤔" } }],
+  [600, { t: 'chat', msg: { who: 'ustoz', text: c.chat.question } }],
   [1500, { t: 'hand', on: true }],
-  [300, { t: 'chat', msg: { who: 'tizim', text: "✋ Timur qo'l ko'tardi" } }],
-  [1300, { t: 'chat', msg: { who: 'siz', text: 'f7! U yerni faqat shoh himoya qilyapti' } }],
+  [300, { t: 'chat', msg: { who: 'tizim', text: c.chat.raised } }],
+  [1300, { t: 'chat', msg: { who: 'siz', text: c.chat.answer } }],
   [500, { t: 'mark', sq: 'f7' }],
-  [1100, { t: 'chat', msg: { who: 'ustoz', text: 'Barakalla! 🎉 +2 tanga' } }],
+  [1100, { t: 'chat', msg: { who: 'ustoz', text: c.chat.praise } }],
   [300, { t: 'hand', on: false }],
   [900, { t: 'clear' }],
   [200, { t: 'move', from: 'f3', to: 'g5' }],
@@ -58,9 +63,9 @@ interface State {
   hand: boolean;
   last: [Sq, Sq] | null;
 }
-const initial = (): State => ({ pieces: { ...START }, arrows: [], marks: [], chat: [{ who: 'ustoz', text: "Salom, Timur! Bugun ochilishdagi tuzoqlarni o'rganamiz 👋" }], hand: false, last: null });
+const initial = (c: Text): State => ({ pieces: { ...START }, arrows: [], marks: [], chat: [{ who: 'ustoz', text: c.chat.hello }], hand: false, last: null });
 
-function apply(st: State, a: Act): State {
+function apply(st: State, a: Act, c: Text): State {
   switch (a.t) {
     case 'move': {
       const id = Object.keys(st.pieces).find((k) => st.pieces[k] === a.from);
@@ -81,24 +86,26 @@ function apply(st: State, a: Act): State {
     case 'clear':
       return { ...st, arrows: [], marks: [] };
     case 'reset':
-      return initial();
+      return initial(c);
   }
 }
 
 /** Darsning tugagan holati (animatsiyasiz rejim uchun) */
-function finalState(): State {
-  return SCRIPT.slice(0, -3).reduce((st, [, a]) => apply(st, a), initial());
+function finalState(c: Text): State {
+  return makeScript(c).slice(0, -3).reduce((st, [, a]) => apply(st, a, c), initial(c));
 }
 
 export function ClassroomDemo() {
-  const [st, setSt] = useState<State>(initial);
+  const c = useT().classroom;
+  const SCRIPT = useMemo(() => makeScript(c), [c]);
+  const [st, setSt] = useState<State>(() => initial(c));
   const [userHand, setUserHand] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setSt(finalState());
+      setSt(finalState(c));
       return;
     }
     let i = 0;
@@ -108,7 +115,7 @@ export function ClassroomDemo() {
       if (!visible) return;
       const [delay, act] = SCRIPT[i];
       timer = window.setTimeout(() => {
-        setSt((prev) => apply(prev, act));
+        setSt((prev) => apply(prev, act, c));
         i = (i + 1) % SCRIPT.length;
         tick();
       }, delay);
@@ -127,7 +134,7 @@ export function ClassroomDemo() {
       io.disconnect();
       clearTimeout(timer);
     };
-  }, []);
+  }, [SCRIPT, c]);
 
   useEffect(() => {
     const el = chatRef.current;
@@ -142,23 +149,23 @@ export function ClassroomDemo() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/pieces/wN.svg" alt="" width={20} height={20} className={s.knight} />
         <div className={s.meta}>
-          <b>Guruh darsi · Debyut-1</b>
-          <span>Ustoz Elbek Jumanov · 57 daqiqa qoldi</span>
+          <b>{c.title}</b>
+          <span>{c.meta}</span>
         </div>
         <span className={s.seg} aria-hidden="true">
-          <i className={s.segOn}>Taxta</i>
+          <i className={s.segOn}>{c.board}</i>
           <i>
-            <LayoutGrid size={12} /> Galereya
+            <LayoutGrid size={12} /> {c.gallery}
           </i>
         </span>
         <span className={s.exit} aria-hidden="true">
-          <LogOut size={13} /> Chiqish
+          <LogOut size={13} /> {c.exit}
         </span>
       </div>
 
       <div className={s.body}>
         <div className={s.boardWrap}>
-          <div className={s.board} role="img" aria-label="Ustoz taxtada Italyan o'yinini ko'rsatmoqda: o'qlar f7 katakka ishora qiladi">
+          <div className={s.board} role="img" aria-label={c.boardAria}>
             {Array.from({ length: 64 }, (_, k) => {
               const x = k % 8;
               const y = Math.floor(k / 8);
@@ -225,14 +232,14 @@ export function ClassroomDemo() {
             <figure className={`${s.cam} ${s.speaking}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/coaches/coach-1.webp" alt="" loading="lazy" width={300} height={375} />
-              <figcaption>Elbek Jumanov</figcaption>
+              <figcaption>{c.teacher}</figcaption>
             </figure>
             <figure className={`${s.cam} ${s.kidCam}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/art/avatar-me.webp" alt="" loading="lazy" width={160} height={160} />
-              <figcaption>Timur (siz)</figcaption>
+              <figcaption>{c.me}</figcaption>
               {hand && (
-                <span className={s.handBadge} aria-label="Qo'l ko'tarilgan">
+                <span className={s.handBadge} aria-label={c.handRaised}>
                   ✋
                 </span>
               )}
@@ -241,7 +248,7 @@ export function ClassroomDemo() {
           <div className={s.chat} ref={chatRef} aria-live="polite">
             {st.chat.map((m, i) => (
               <p key={`${i}-${m.text}`} className={`${s.msg} ${s[m.who]}`}>
-                {m.who !== 'tizim' && <b>{m.who === 'ustoz' ? 'Ustoz' : 'Siz'}</b>}
+                {m.who !== 'tizim' && <b>{m.who === 'ustoz' ? c.who.ustoz : c.who.siz}</b>}
                 {m.text}
               </p>
             ))}
@@ -257,7 +264,7 @@ export function ClassroomDemo() {
           <Video size={16} />
         </span>
         <button type="button" className={`${s.handBtn} ${hand ? s.handOn : ''}`} onClick={() => setUserHand((h) => !h)} aria-pressed={userHand}>
-          <Hand size={16} aria-hidden="true" /> {userHand ? "Qo'lni tushirish" : "Qo'l ko'tarish"}
+          <Hand size={16} aria-hidden="true" /> {userHand ? c.lower : c.raise}
         </button>
       </div>
     </div>

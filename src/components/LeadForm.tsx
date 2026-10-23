@@ -3,10 +3,8 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowRight, Loader2, Lock } from 'lucide-react';
 import { LeadError, submitLead } from '@/lib/api';
+import { useLocale, useT } from './providers';
 import s from './LeadForm.module.css';
-
-const AGES = ['5–6 yosh', '7–9 yosh', '10–12 yosh', '13+ yosh'];
-const TIMES = ['Ertalab', 'Tushdan keyin', 'Kechqurun', 'Dam olish kunlari'];
 
 /** +998 XX XXX XX XX ko'rinishida yozadi */
 function formatPhone(raw: string): string {
@@ -29,6 +27,9 @@ function utm(): Record<string, string> {
 }
 
 export function LeadForm({ source, onDone, compact = false }: { source: string; onDone?: () => void; compact?: boolean }) {
+  const dict = useT();
+  const t = dict.lead;
+  const locale = useLocale();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('+998 ');
   const [age, setAge] = useState('');
@@ -43,7 +44,7 @@ export function LeadForm({ source, onDone, compact = false }: { source: string; 
   async function submit(e: FormEvent) {
     e.preventDefault();
     if (!valid) {
-      setErr(name.trim().length < 2 ? 'Ismingizni yozing.' : "Telefon raqamini to'liq yozing: +998 XX XXX XX XX");
+      setErr(name.trim().length < 2 ? t.errName : t.errPhone);
       return;
     }
     setErr(null);
@@ -56,11 +57,12 @@ export function LeadForm({ source, onDone, compact = false }: { source: string; 
         preferredTime: time || undefined,
         comment: source ? `Manba: ${source}` : undefined,
         website,
+        lang: locale,
         ...utm(),
       });
       setState('done');
     } catch (ex) {
-      setErr(ex instanceof LeadError ? ex.message : "Xatolik yuz berdi. Qayta urinib ko'ring.");
+      setErr(ex instanceof LeadError ? t.errors[ex.code] : t.errors.unknown);
       setState('idle');
     }
   }
@@ -70,11 +72,11 @@ export function LeadForm({ source, onDone, compact = false }: { source: string; 
       <div className={s.done} role="status">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/art/cheer-full.webp" alt="" width={120} height={140} />
-        <h3>Arizangiz qabul qilindi! 🎉</h3>
-        <p>Tez orada administratorimiz qo&apos;ng&apos;iroq qilib, bepul dars vaqtini kelishib oladi.</p>
+        <h3>{t.doneTitle}</h3>
+        <p>{t.doneText}</p>
         {onDone && (
           <button type="button" className="btn btn-ghost" onClick={onDone}>
-            Yopish
+            {dict.common.close}
           </button>
         )}
       </div>
@@ -84,11 +86,11 @@ export function LeadForm({ source, onDone, compact = false }: { source: string; 
   return (
     <form className={`${s.form} ${compact ? s.compact : ''}`} onSubmit={submit} noValidate>
       <label className={s.field}>
-        <span>Ota-onaning ismi</span>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ismingiz" autoComplete="name" maxLength={80} required />
+        <span>{t.name}</span>
+        <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t.namePh} autoComplete="name" maxLength={80} required />
       </label>
       <label className={s.field}>
-        <span>Telefon raqami</span>
+        <span>{t.phone}</span>
         <input
           value={phone}
           onChange={(e) => setPhone(formatPhone(e.target.value))}
@@ -99,21 +101,21 @@ export function LeadForm({ source, onDone, compact = false }: { source: string; 
         />
       </label>
       <fieldset className={s.choices}>
-        <legend>Bolaning yoshi</legend>
+        <legend>{t.age}</legend>
         <div>
-          {AGES.map((a) => (
-            <button type="button" key={a} className={age === a ? s.chipOn : ''} aria-pressed={age === a} onClick={() => setAge(age === a ? '' : a)}>
-              {a}
+          {t.ages.map(({ value, label }) => (
+            <button type="button" key={value} className={age === value ? s.chipOn : ''} aria-pressed={age === value} onClick={() => setAge(age === value ? '' : value)}>
+              {label}
             </button>
           ))}
         </div>
       </fieldset>
       <fieldset className={s.choices}>
-        <legend>Qulay vaqt</legend>
+        <legend>{t.time}</legend>
         <div>
-          {TIMES.map((t) => (
-            <button type="button" key={t} className={time === t ? s.chipOn : ''} aria-pressed={time === t} onClick={() => setTime(time === t ? '' : t)}>
-              {t}
+          {t.times.map(({ value, label }) => (
+            <button type="button" key={value} className={time === value ? s.chipOn : ''} aria-pressed={time === value} onClick={() => setTime(time === value ? '' : value)}>
+              {label}
             </button>
           ))}
         </div>
@@ -128,16 +130,16 @@ export function LeadForm({ source, onDone, compact = false }: { source: string; 
       <button type="submit" className={`btn btn-primary ${s.submit}`} disabled={state === 'sending'}>
         {state === 'sending' ? (
           <>
-            <Loader2 size={18} className={s.spin} aria-hidden="true" /> Yuborilmoqda…
+            <Loader2 size={18} className={s.spin} aria-hidden="true" /> {t.sending}
           </>
         ) : (
           <>
-            Bepul darsga yozilish <ArrowRight className="arrow" size={18} aria-hidden="true" />
+            {t.submit} <ArrowRight className="arrow" size={18} aria-hidden="true" />
           </>
         )}
       </button>
       <p className={s.privacy}>
-        <Lock size={13} aria-hidden="true" /> Ma&apos;lumotlaringiz faqat siz bilan bog&apos;lanish uchun ishlatiladi.
+        <Lock size={13} aria-hidden="true" /> {t.privacy}
       </p>
     </form>
   );

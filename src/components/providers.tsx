@@ -3,8 +3,11 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { LandingData } from '@/content/types';
 import { fetchLanding } from '@/lib/api';
+import type { Dict, Locale } from '@/i18n';
 
 const DataCtx = createContext<LandingData | null>(null);
+/** Sahifa tili va uning matnlari (lug'at server komponentdan prop bo'lib keladi — mijozga faqat bitta til yuklanadi) */
+const LocaleCtx = createContext<{ locale: Locale; t: Dict } | null>(null);
 const LeadCtx = createContext<{ open: (source?: string) => void; close: () => void; isOpen: boolean; source: string }>({
   open: () => {},
   close: () => {},
@@ -13,17 +16,17 @@ const LeadCtx = createContext<{ open: (source?: string) => void; close: () => vo
 });
 
 /** Build vaqtidagi ma'lumot darhol ko'rinadi, keyin serverdan eng yangisi olinadi (aksiya, narx o'zgargan bo'lsa). */
-export function Providers({ initial, children }: { initial: LandingData; children: ReactNode }) {
+export function Providers({ initial, locale, t, children }: { initial: LandingData; locale: Locale; t: Dict; children: ReactNode }) {
   const [data, setData] = useState(initial);
   const [lead, setLead] = useState({ isOpen: false, source: '' });
 
   useEffect(() => {
     const ac = new AbortController();
-    fetchLanding(ac.signal)
+    fetchLanding(locale, ac.signal)
       .then((d) => setData((prev) => ({ ...prev, ...d, contacts: d.contacts ?? prev.contacts })))
       .catch(() => {});
     return () => ac.abort();
-  }, []);
+  }, [locale]);
 
   // Sahifadagi barcha .reveal elementlari ko'rinishga kirganda yumshoq paydo bo'ladi
   useEffect(() => {
@@ -51,9 +54,11 @@ export function Providers({ initial, children }: { initial: LandingData; childre
   const close = useCallback(() => setLead((l) => ({ ...l, isOpen: false })), []);
 
   return (
-    <DataCtx.Provider value={data}>
-      <LeadCtx.Provider value={{ open, close, isOpen: lead.isOpen, source: lead.source }}>{children}</LeadCtx.Provider>
-    </DataCtx.Provider>
+    <LocaleCtx.Provider value={{ locale, t }}>
+      <DataCtx.Provider value={data}>
+        <LeadCtx.Provider value={{ open, close, isOpen: lead.isOpen, source: lead.source }}>{children}</LeadCtx.Provider>
+      </DataCtx.Provider>
+    </LocaleCtx.Provider>
   );
 }
 
@@ -65,4 +70,17 @@ export function useLanding(): LandingData {
 
 export function useLead() {
   return useContext(LeadCtx);
+}
+
+/** Joriy til matnlari */
+export function useT(): Dict {
+  const v = useContext(LocaleCtx);
+  if (!v) throw new Error("Providers yo'q");
+  return v.t;
+}
+
+export function useLocale(): Locale {
+  const v = useContext(LocaleCtx);
+  if (!v) throw new Error("Providers yo'q");
+  return v.locale;
 }

@@ -2,13 +2,12 @@
 
 import { Check, Gift } from 'lucide-react';
 import { LeadForm } from './LeadForm';
-import { useLanding } from './providers';
+import { useLanding, useT } from './providers';
 import s from './Signup.module.css';
-
-const PERKS = ['30 daqiqalik bepul diagnostika darsi', "Tajribali murabbiy bilan yakkama-yakka", 'Bolangiz uchun shaxsiy tavsiyalar', 'Hech qanday majburiyatsiz'];
 
 export function Signup() {
   const { promo } = useLanding();
+  const t = useT().signup;
   return (
     <section id="yozilish" className="section">
       <div className="container">
@@ -21,14 +20,14 @@ export function Signup() {
                 </>
               ) : (
                 <>
-                  <Gift size={15} aria-hidden="true" /> Birinchi dars — bepul
+                  <Gift size={15} aria-hidden="true" /> {t.chip}
                 </>
               )}
             </span>
-            <h2>Bepul darsga hoziroq yoziling</h2>
-            <p>Ma&apos;lumotlaringizni qoldiring — administratorimiz qo&apos;ng&apos;iroq qilib, sizga qulay vaqtni kelishib oladi.</p>
+            <h2>{t.title}</h2>
+            <p>{t.text}</p>
             <ul>
-              {PERKS.map((p) => (
+              {t.perks.map((p) => (
                 <li key={p}>
                   <span>
                     <Check size={15} aria-hidden="true" />
